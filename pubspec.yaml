@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_screenutil: ^5.9.3
   shared_preferences: ^2.5.3
   stacked: ^3.4.0
   stacked_services: ^1.1.0
@@ -35,6 +36,11 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-SemiBold.ttf
           weight: 600
+        
+        - asset: assets/fonts/Roboto_Condensed-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+
         - asset: assets/fonts/Roboto-ExtraBold.ttf
           weight: 800
         - asset: assets/fonts/Roboto-Medium.ttf

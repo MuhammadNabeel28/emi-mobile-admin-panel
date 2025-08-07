@@ -126,7 +126,7 @@ class LoginView extends StackedView<LoginViewmodel> {
                     child: Checkbox(
                       value: viewModel.isChecked,
                       onChanged: (bool? value) {
-                        viewModel.toggleCheckbox(value ?? false);
+                        // viewModel.toggleCheckbox(value ?? false);
                       },
                       activeColor: const Color(0xff4FC7B1),
                       checkColor: Colors.white,
@@ -140,7 +140,7 @@ class LoginView extends StackedView<LoginViewmodel> {
                   ),
                   Text(
                     'Remember Me',
-                    style: AppFonts.light(
+                    style: AppFonts.medium(
                       fontSize: 15,
                       color: Colors.black,
                     ),
@@ -158,20 +158,20 @@ class LoginView extends StackedView<LoginViewmodel> {
                           if (viewModel.formKey.currentState?.validate() ??
                               false) {
                             viewModel.formKey.currentState!.save();
-                            var result = viewModel.login(
-                              viewModel.emailcontrol.text,
-                              viewModel.passwordcontrol.text,
-                              context,
-                            );
+                            // var result = viewModel.login(
+                            //   viewModel.emailcontrol.text,
+                            //   viewModel.passwordcontrol.text,
+                            //   context,
+                            // );
 
-                            if (await result) {
-                              viewModel.emailcontrol.clear();
-                              viewModel.passwordcontrol.clear();
-                              viewModel.runHomeView();
-                            } else {
-                              viewModel.showRegularDailog('Validation!',
-                                  'Incorrect user ID or password. Please try again.');
-                            }
+                            // if (await result) {
+                            //   viewModel.emailcontrol.clear();
+                            //   viewModel.passwordcontrol.clear();
+                            //   viewModel.runHomeView();
+                            // } else {
+                            //   // viewModel.showRegularDailog('Validation!',
+                            //   //     'Incorrect user ID or password. Please try again.');
+                            // }
                           }
                         },
                   style: ElevatedButton.styleFrom(
@@ -191,7 +191,7 @@ class LoginView extends StackedView<LoginViewmodel> {
                         )
                       : Text(
                           'Login',
-                          style: AppFonts.bold(
+                          style: AppFonts.extraBold(
                             color: Colors.white,
                             fontSize: 17,
                           ),
@@ -207,7 +207,7 @@ class LoginView extends StackedView<LoginViewmodel> {
                 ),
                 child: Text(
                   'Forgot Password',
-                  style: AppFonts.bold(
+                  style: AppFonts.extraBold(
                     color: Colors.blue,
                     fontSize: 17,
                   ),

@@ -5,15 +5,12 @@ import 'package:emi_solution/ui/widget/custom_snackbar.dart';
 import 'package:logger/logger.dart';
 
 class ApiClient {
-
   final dio = Dio();
   final Logger logger = Logger();
-  final localStorage = LocalStorage()
+  final localStorage = LocalStorage();
 
-
-
-    //! login request
-    Future<Map<String, dynamic>> postLogin({
+  //! login request
+  Future<Map<String, dynamic>> postLogin({
     required userName,
     required password,
     required deviceId,
@@ -41,12 +38,11 @@ class ApiClient {
         return response.data;
       } else if (response.statusCode == 401) {
         final refreshResult = await postRefreshToken(
-          token: LocalStorage.getString("token"),
-          refreshToken: LocalStorage.getString("refreshToken"),
+          token: LocalStorage.getString(LocalStorage.userNameKey),
+          refreshToken: LocalStorage.getString(LocalStorage.refreshTokenKey),
         );
 
-        logger.i(
-            "(Api Client  Class) refreseh Token ${refreshResult.toString()}");
+        logger.i("(Api Client  Class) refreseh Token ${refreshResult.toString()}");
 
         return {
           "success": false,
@@ -54,8 +50,7 @@ class ApiClient {
           "refreshResponse": refreshResult,
         };
       } else {
-        logger.e(
-            "(Api CLient request login error)  : Error Message: ${response.statusMessage}}");
+        logger.e("(Api CLient request login error)  : Error Message: ${response.statusMessage}}");
 
         return {"success": false, "message": response.statusMessage};
       }
@@ -84,7 +79,8 @@ class ApiClient {
       );
 
       if (response.statusCode == 200) {
-        logger.i("(Api CLient request refreshToken success!!)  : refreshToken: ${response.data}");
+        logger.i(
+            "(Api CLient request refreshToken success!!)  : refreshToken: ${response.data}");
         return response.data;
       } else {
         logger.e(

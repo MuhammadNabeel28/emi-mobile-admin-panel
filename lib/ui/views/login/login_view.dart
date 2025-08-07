@@ -1,16 +1,225 @@
+import 'package:emi_solution/ui/common/app_images.dart';
+import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/login/login_viewmodel.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 
-class LoginView extends StackedView<LoginViewmodel>{
+class LoginView extends StackedView<LoginViewmodel> {
   const LoginView({super.key});
 
   @override
-  Widget builder(BuildContext context, LoginViewmodel viewModel, Widget? child) {
-    throw UnimplementedError();
+  Widget builder(
+      BuildContext context, LoginViewmodel viewModel, Widget? child) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenHeight = mediaQuery.size.height;
+    final screenWidth = mediaQuery.size.width;
+    final bool isTablet = screenWidth > 600;
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    margin: isTablet
+                        ? const EdgeInsets.only(
+                            right: 300,
+                          )
+                        : const EdgeInsets.only(
+                            right: 180,
+                          ),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(1000),
+                      ),
+                      color: Color(0xffF2994A),
+                    ),
+                    height: isTablet ? screenHeight * 0.6 : screenHeight * 0.4,
+                  ),
+                  Container(
+                    margin: isTablet
+                        ? const EdgeInsets.only(
+                            left: 150,
+                          )
+                        : const EdgeInsets.only(
+                            left: 80,
+                          ),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(500),
+                      ),
+                      color: Color(0xff272341),
+                    ),
+                    height: isTablet ? screenHeight * 0.5 : screenHeight * 0.4,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: isTablet ? 90 : 70,
+                      left: isTablet ? 350 : 230,
+                    ),
+                    child: Text(
+                      'EMI Solution',
+                      style: AppFonts.extraBold(
+                        color: Colors.white,
+                        fontSize: isTablet ? 40 : 30,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: screenHeight * (isTablet ? 0.35 : 0.3),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        AppImages.svgPeopal,
+                        width: isTablet ? 200 : 100,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: viewModel.formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        key: const ValueKey('email'),
+                        controller: viewModel.emailcontrol,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: viewModel.validationEmail,
+                        onSaved: (value) => viewModel.setemail(value),
+                      ),
+                      const SizedBox(height: 18.0),
+                      TextFormField(
+                        key: const ValueKey('password'),
+                        controller: viewModel.passwordcontrol,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        obscureText: true,
+                        validator: viewModel.validationPassword,
+                        onSaved: (value) => viewModel.setPassword(value),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(
+                      left: 5,
+                    ),
+                    child: Checkbox(
+                      value: viewModel.isChecked,
+                      onChanged: (bool? value) {
+                        viewModel.toggleCheckbox(value ?? false);
+                      },
+                      activeColor: const Color(0xff4FC7B1),
+                      checkColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Text(
+                    'Remember Me',
+                    style: AppFonts.light(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 20.0),
+              Container(
+                width: screenWidth,
+                margin: const EdgeInsets.all(15),
+                child: ElevatedButton(
+                  onPressed: viewModel.isLoading
+                      ? null
+                      : () async {
+                          if (viewModel.formKey.currentState?.validate() ??
+                              false) {
+                            viewModel.formKey.currentState!.save();
+                            var result = viewModel.login(
+                              viewModel.emailcontrol.text,
+                              viewModel.passwordcontrol.text,
+                              context,
+                            );
+
+                            if (await result) {
+                              viewModel.emailcontrol.clear();
+                              viewModel.passwordcontrol.clear();
+                              viewModel.runHomeView();
+                            } else {
+                              viewModel.showRegularDailog('Validation!',
+                                  'Incorrect user ID or password. Please try again.');
+                            }
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff4FC7B1),
+                    padding: const EdgeInsets.symmetric(
+                      //horizontal: 32.0,
+                      vertical: 16.0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: viewModel.isLoading
+                      ? const CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
+                        )
+                      : Text(
+                          'Login',
+                          style: AppFonts.bold(
+                            color: Colors.white,
+                            fontSize: 17,
+                          ),
+                        ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                  right: 225,
+                ),
+                child: Text(
+                  'Forgot Password',
+                  style: AppFonts.bold(
+                    color: Colors.blue,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   LoginViewmodel viewModelBuilder(BuildContext context) => LoginViewmodel();
-  
 }

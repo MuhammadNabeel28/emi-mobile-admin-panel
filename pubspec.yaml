@@ -7,9 +7,13 @@ environment:
   sdk: '>=3.0.3 <4.0.0'
 
 dependencies:
+  device_info_plus: ^11.5.0
+  dio: ^5.8.0+1
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.0
+  logger: ^1.4.0
   shared_preferences: ^2.5.3
   stacked: ^3.4.0
   stacked_services: ^1.1.0
@@ -28,6 +32,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/svg/
 
 
 

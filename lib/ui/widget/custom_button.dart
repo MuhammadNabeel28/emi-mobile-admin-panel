@@ -148,10 +148,10 @@ class CustomButton extends StatelessWidget {
     switch (type) {
       case ButtonType.primary:
       case ButtonType.danger:
-        CustomSnackBar.showError('Error: $error');
+        AppSnackBar.showError('Error: $error');
         break;
       case ButtonType.secondary:
-        CustomSnackBar.showWarning('Warning: $error');
+        AppSnackBar.showWarning('Warning: $error');
         break;
     }
   }

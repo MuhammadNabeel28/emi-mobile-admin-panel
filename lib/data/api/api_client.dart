@@ -79,12 +79,10 @@ class ApiClient {
       );
 
       if (response.statusCode == 200) {
-        logger.i(
-            "(Api CLient request refreshToken success!!)  : refreshToken: ${response.data}");
+        logger.i("(Api CLient request refreshToken success!!)  : refreshToken: ${response.data}");
         return response.data;
       } else {
-        logger.e(
-            "(Api CLient request refreshToken error )  : Error Message: ${response.statusMessage}}");
+        logger.e("(Api CLient request refreshToken error )  : Error Message: ${response.statusMessage}}");
 
         return {
           "success": "false",

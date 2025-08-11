@@ -3,7 +3,6 @@ import 'package:emi_solution/app/app.bottomsheets.dart';
 import 'package:emi_solution/app/app.dialogs.dart';
 import 'package:emi_solution/app/app.locator.dart';
 import 'package:emi_solution/app/app.router.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -21,13 +20,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone X size, adjust as needed
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.startupView,
+        initialRoute: Routes.splashView,
         onGenerateRoute: StackedRouter().onGenerateRoute,
         navigatorKey: StackedService.navigatorKey,
         navigatorObservers: [StackedService.routeObserver],

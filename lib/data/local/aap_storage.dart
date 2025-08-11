@@ -9,6 +9,7 @@ class LocalStorage {
   static const String userLoginKey = 'UserLoginKey';
   static const String userNameKey = 'UserNameKey';
   static const String refreshTokenKey = 'refreshTokenKey';
+  static const String accessTokenKey = 'accessTokenKey';
   static const String rememberKey = 'rememberKey';
   static const String userIdKey = 'userIdKey';
   static const String passwordKey = 'passwordKey';

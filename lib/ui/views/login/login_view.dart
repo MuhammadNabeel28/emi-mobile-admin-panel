@@ -158,20 +158,19 @@ class LoginView extends StackedView<LoginViewmodel> {
                           if (viewModel.formKey.currentState?.validate() ??
                               false) {
                             viewModel.formKey.currentState!.save();
-                            // var result = viewModel.login(
-                            //   viewModel.emailcontrol.text,
-                            //   viewModel.passwordcontrol.text,
-                            //   context,
-                            // );
+                            var result = viewModel.loginUser(
+                              username: viewModel.emailcontrol.text,
+                              password: viewModel.passwordcontrol.text,
+                            );
 
-                            // if (await result) {
-                            //   viewModel.emailcontrol.clear();
-                            //   viewModel.passwordcontrol.clear();
-                            //   viewModel.runHomeView();
-                            // } else {
-                            //   // viewModel.showRegularDailog('Validation!',
-                            //   //     'Incorrect user ID or password. Please try again.');
-                            // }
+                            if (await result) {
+                              viewModel.emailcontrol.clear();
+                              viewModel.passwordcontrol.clear();
+                              viewModel.runHomeView();
+                            } else {
+                              viewModel.showRegularDailog('Validation!',
+                                  'Incorrect user ID or password. Please try again.');
+                            }
                           }
                         },
                   style: ElevatedButton.styleFrom(

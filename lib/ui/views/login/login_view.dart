@@ -58,7 +58,7 @@ class LoginView extends StackedView<LoginViewmodel> {
                   Container(
                     margin: EdgeInsets.only(
                       top: isTablet ? 90 : 70,
-                      left: isTablet ? 350 : 230,
+                      left: isTablet ? 350 : 100,
                     ),
                     child: Text(
                       'EMI Solution',
@@ -92,6 +92,9 @@ class LoginView extends StackedView<LoginViewmodel> {
                         controller: viewModel.emailcontrol,
                         decoration: InputDecoration(
                           labelText: 'Email',
+                          labelStyle: AppFonts.medium(
+                            fontSize: 15,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -105,11 +108,27 @@ class LoginView extends StackedView<LoginViewmodel> {
                         controller: viewModel.passwordcontrol,
                         decoration: InputDecoration(
                           labelText: 'Password',
+                          labelStyle: AppFonts.medium(
+                            fontSize: 15,
+                          ),
+                          hintText: '********',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
+                          suffix: GestureDetector(
+                            onTap: () {
+                              viewModel.setObscurePassword();
+                            },
+                            child: viewModel.obscurePassword
+                                ? Image.asset(
+                                    AppImages.eyeClose,
+                                    color: Colors.black,
+                                  )
+                                : Image.asset(AppImages.eyeOpen,
+                                    color: Colors.black),
+                          ),
                         ),
-                        obscureText: true,
+                        obscureText: viewModel.obscurePassword,
                         validator: viewModel.validationPassword,
                         onSaved: (value) => viewModel.setPassword(value),
                       ),
@@ -221,4 +240,11 @@ class LoginView extends StackedView<LoginViewmodel> {
 
   @override
   LoginViewmodel viewModelBuilder(BuildContext context) => LoginViewmodel();
+
+  @override
+  void onDispose(LoginViewmodel viewModel) {
+    viewModel.emailcontrol.dispose();
+    viewModel.passwordcontrol.dispose();
+    super.onDispose(viewModel);
+  }
 }

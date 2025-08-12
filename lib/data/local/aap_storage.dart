@@ -15,6 +15,7 @@ class LocalStorage {
   static const String passwordKey = 'passwordKey';
   static const String launchFirstKey = 'launchFirstKey';
   static const String isLoginKey = 'isLoginKey';
+  static const String deviceIdKey = 'deviceIdKey';
   
 
   static Future<void> initialize() async {

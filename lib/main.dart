@@ -1,3 +1,5 @@
+import 'package:emi_solution/data/local/aap_storage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:emi_solution/app/app.bottomsheets.dart';
 import 'package:emi_solution/app/app.dialogs.dart';
@@ -8,6 +10,9 @@ import 'package:stacked_services/stacked_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalStorage.initialize();
+  GestureBinding.instance.resamplingEnabled = true;
+
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();

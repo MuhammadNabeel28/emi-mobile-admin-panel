@@ -12,12 +12,18 @@ class LoginViewmodel extends BaseViewModel {
   late TextEditingController emailcontrol = TextEditingController();
   final passwordcontrol = TextEditingController();
   final _navigationService = locator<NavigationService>();
+  bool obscurePassword = true;
   
   bool isChecked = false;
   bool isLoading = false;
   final logger = LocalStorage.logger;
   LoginModel? loginModel;
   final postRepo = PostRepository();
+
+   setObscurePassword() {
+    obscurePassword = !obscurePassword;
+    rebuildUi();
+  }
 
   void runHomeView() async {
     //_navigationService.replaceWithHomeView();

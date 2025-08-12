@@ -1,7 +1,6 @@
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/splash/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:stacked/stacked.dart';
 
 class SplashView extends StackedView<SplashViewmodel> {
@@ -24,4 +23,9 @@ class SplashView extends StackedView<SplashViewmodel> {
 
   @override
   viewModelBuilder(BuildContext context) => SplashViewmodel();
+
+  @override
+  void onViewModelReady(SplashViewmodel viewModel) {
+    viewModel.navigateToNext();
+  }
 }

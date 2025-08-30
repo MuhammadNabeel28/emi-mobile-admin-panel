@@ -3,7 +3,6 @@ import 'package:emi_solution/ui/common/app_images.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/widget/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked/stacked.dart';
 
@@ -88,9 +87,14 @@ class StartupView extends StackedView<StartupViewModel> {
               CustomButton(
                 width: double.infinity,
                 text: "Get Started",
-                onPressed: () {},
+                onPressed: () {
+                  viewModel.isLoading = true;
+                  viewModel.rebuildUi();
+                  viewModel.runStartupLogic();
+                },
                 backgroundColor: kcVeryLightGrey,
                 foregroundColor: primaryColor,
+                isLoading: viewModel.isLoading,
               ),
               const Spacer(),
               Container(
@@ -117,8 +121,4 @@ class StartupView extends StackedView<StartupViewModel> {
 
   @override
   StartupViewModel viewModelBuilder(BuildContext context) => StartupViewModel();
-
-  @override
-  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance
-      .addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
 }

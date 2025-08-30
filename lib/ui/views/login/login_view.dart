@@ -2,7 +2,6 @@ import 'package:emi_solution/ui/common/app_images.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 
@@ -145,7 +144,7 @@ class LoginView extends StackedView<LoginViewmodel> {
                     child: Checkbox(
                       value: viewModel.isChecked,
                       onChanged: (bool? value) {
-                        // viewModel.toggleCheckbox(value ?? false);
+                        viewModel.toggleCheckbox(value ?? false);
                       },
                       activeColor: const Color(0xff4FC7B1),
                       checkColor: Colors.white,
@@ -171,24 +170,28 @@ class LoginView extends StackedView<LoginViewmodel> {
                 width: screenWidth,
                 margin: const EdgeInsets.all(15),
                 child: ElevatedButton(
-                  onPressed: viewModel.isLoading
+                  onPressed: viewModel.isBusy
                       ? null
                       : () async {
                           if (viewModel.formKey.currentState?.validate() ??
                               false) {
                             viewModel.formKey.currentState!.save();
-                            var result = viewModel.loginUser(
+
+                            bool result = await viewModel.loginUser(
                               username: viewModel.emailcontrol.text,
                               password: viewModel.passwordcontrol.text,
                             );
 
-                            if (await result) {
+                            if (result) {
                               viewModel.emailcontrol.clear();
                               viewModel.passwordcontrol.clear();
                               viewModel.runHomeView();
                             } else {
-                              viewModel.showRegularDailog('Validation!',
-                                  'Incorrect user ID or password. Please try again.');
+                              viewModel.showRegularDailog(
+                                'Login Failed',
+                                viewModel.loginModel?.message ??
+                                    'Something went wrong. Please try again.',
+                              );
                             }
                           }
                         },

@@ -1,4 +1,5 @@
 import 'package:emi_solution/app/app.locator.dart';
+import 'package:emi_solution/app/app.router.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/data/model/login_model.dart';
 import 'package:emi_solution/data/repo/post/PostRepository.dart';
@@ -13,20 +14,23 @@ class LoginViewmodel extends BaseViewModel {
   final passwordcontrol = TextEditingController();
   final _navigationService = locator<NavigationService>();
   bool obscurePassword = true;
-  
+
   bool isChecked = false;
   bool isLoading = false;
+  bool isMaster = false;
   final logger = LocalStorage.logger;
   LoginModel? loginModel;
   final postRepo = PostRepository();
 
-   setObscurePassword() {
+  setObscurePassword() {
     obscurePassword = !obscurePassword;
     rebuildUi();
   }
 
   void runHomeView() async {
-    //_navigationService.replaceWithHomeView();
+    isMaster
+        ? _navigationService.replaceWithAdminView()
+        : _navigationService.replaceWithCustomerView();
   }
 
   Future<void> loadCredentials() async {
@@ -77,7 +81,6 @@ class LoginViewmodel extends BaseViewModel {
   Future<bool> loginUser({
     required String username,
     required String password,
-    
   }) async {
     setBusy(true);
     await Future.delayed(const Duration(seconds: 3));
@@ -85,11 +88,11 @@ class LoginViewmodel extends BaseViewModel {
     try {
       loginModel = await postRepo.postLogin(
         username: username,
-        password: password, deviceId: '',
-        
+        password: password,
+        deviceId: LocalStorage.getString(LocalStorage.deviceIdKey)!,
       );
 
-      if (loginModel != null) {
+      if (loginModel != null && loginModel!.success == true) {
         LocalStorage.setString(
             LocalStorage.accessTokenKey, loginModel!.accessToken!);
         LocalStorage.setString(LocalStorage.userIdKey, loginModel!.userId!);
@@ -98,6 +101,9 @@ class LoginViewmodel extends BaseViewModel {
             LocalStorage.refreshTokenKey, loginModel!.refreshToken!);
         LocalStorage.setbool(LocalStorage.isLoginKey, true);
         LocalStorage.setbool(LocalStorage.launchFirstKey, true);
+        LocalStorage.setInt(LocalStorage.accountIdKey, loginModel!.accountId!);
+
+        isMaster = loginModel!.isMaster!;
 
         //! check remember status
         isChecked
@@ -106,23 +112,27 @@ class LoginViewmodel extends BaseViewModel {
 
         return true;
       } else {
-        setBusy(false);
+        logger.w("(login viewModel): Login failed - ${loginModel?.message}");
         return false;
       }
     } catch (e) {
-      setBusy(false);
-      logger.e("(logoin viewModel): Error logging in: $e");
-
+      logger.e("(login viewModel): Error logging in: $e");
       return false;
     } finally {
       setBusy(false);
     }
   }
-   Future<void> showRegularDailog(String? message, String? detail) async {
+
+  Future<void> showRegularDailog(String? message, String? detail) async {
     await _dialogService.showDialog(
         barrierDismissible: true,
         title: message,
         description: detail,
         dialogPlatform: DialogPlatform.Material);
+  }
+
+  void toggleCheckbox(bool value) {
+    isChecked = value;
+    rebuildUi();
   }
 }

@@ -5,9 +5,10 @@ import 'package:stacked_services/stacked_services.dart';
 
 class StartupViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
+  bool isLoading = false;
 
   Future runStartupLogic() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     _navigationService.replaceWithLoginView();
   }
 }

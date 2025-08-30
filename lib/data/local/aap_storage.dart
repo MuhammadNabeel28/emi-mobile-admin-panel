@@ -16,7 +16,7 @@ class LocalStorage {
   static const String launchFirstKey = 'launchFirstKey';
   static const String isLoginKey = 'isLoginKey';
   static const String deviceIdKey = 'deviceIdKey';
-  
+  static const String accountIdKey = 'accountIdKey';
 
   static Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();
@@ -64,5 +64,15 @@ class LocalStorage {
   //! Get a bool value
   static bool? getbool(String key) {
     return _preferences.getBool(key);
+  }
+
+  //! Set an int value
+  static Future<void> setInt(String key, int value) async {
+    await _preferences.setInt(key, value);
+  }
+
+  //! get int value
+  static Future<int?> getInt(String key) async {
+    return _preferences.getInt(key);
   }
 }

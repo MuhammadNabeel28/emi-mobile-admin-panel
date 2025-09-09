@@ -19,10 +19,15 @@ class SplashViewmodel extends BaseViewModel {
     final isFirstLaunch =
         LocalStorage.getbool(LocalStorage.launchFirstKey) ?? true;
     final islogin = LocalStorage.getbool(LocalStorage.isLoginKey) ?? false;
+    final isMaster = LocalStorage.getbool(LocalStorage.isMasterKey) ?? false;
 
-    if (islogin) {
+    if (islogin && isMaster) {
       await Future.delayed(const Duration(seconds: 2), () {
-        _navigationServices.replaceWithHomeView();
+        _navigationServices.replaceWithAdminView();
+      });
+    } else if (islogin && !isMaster) {
+      await Future.delayed(const Duration(seconds: 2), () {
+        _navigationServices.replaceWithCustomerView();
       });
     } else if (isFirstLaunch) {
       await Future.delayed(const Duration(seconds: 2), () {

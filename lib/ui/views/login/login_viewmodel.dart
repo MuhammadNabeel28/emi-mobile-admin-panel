@@ -22,7 +22,7 @@ class LoginViewmodel extends BaseViewModel {
   LoginModel? loginModel;
   final postRepo = PostRepository();
 
-  setObscurePassword() {
+  void setObscurePassword() {
     obscurePassword = !obscurePassword;
     rebuildUi();
   }
@@ -70,11 +70,11 @@ class LoginViewmodel extends BaseViewModel {
     }
   }
 
-  setemail(String? email) {
+  void setemail(String? email) {
     emailcontrol.text = email ?? '';
   }
 
-  setPassword(String? password) {
+  void setPassword(String? password) {
     passwordcontrol.text = password ?? '';
   }
 
@@ -103,7 +103,15 @@ class LoginViewmodel extends BaseViewModel {
         LocalStorage.setbool(LocalStorage.launchFirstKey, true);
         LocalStorage.setInt(LocalStorage.accountIdKey, loginModel!.accountId!);
 
+        LocalStorage.setbool(LocalStorage.launchFirstKey, false);
+
         isMaster = loginModel!.isMaster!;
+
+        if (isMaster) {
+          await LocalStorage.setbool(LocalStorage.isMasterKey, true);
+        } else {
+          await LocalStorage.setbool(LocalStorage.isMasterKey, false);
+        }
 
         //! check remember status
         isChecked

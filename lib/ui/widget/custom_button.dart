@@ -97,8 +97,8 @@ class CustomButton extends StatelessWidget {
           onPressed: isLoading ? null : _handlePressed,
           child: isLoading
               ? SizedBox(
-                  width: 20.w,
-                  height: 20.h,
+                  width: 25.w,
+                  height: 25.h,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     color: buttonColors.foregroundColor,

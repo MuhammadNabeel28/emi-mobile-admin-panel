@@ -1,6 +1,7 @@
 import 'package:emi_solution/ui/common/app_images.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/login/login_viewmodel.dart';
+import 'package:emi_solution/ui/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
@@ -169,54 +170,32 @@ class LoginView extends StackedView<LoginViewmodel> {
               Container(
                 width: screenWidth,
                 margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  onPressed: viewModel.isBusy
-                      ? null
-                      : () async {
-                          if (viewModel.formKey.currentState?.validate() ??
-                              false) {
-                            viewModel.formKey.currentState!.save();
+                child: CustomButton(
+                  isLoading: viewModel.isBusy,
+                  onPressed: () async {
+                    if (viewModel.formKey.currentState?.validate() ?? false) {
+                      viewModel.formKey.currentState!.save();
 
-                            bool result = await viewModel.loginUser(
-                              username: viewModel.emailcontrol.text,
-                              password: viewModel.passwordcontrol.text,
-                            );
+                      bool result = await viewModel.loginUser(
+                        username: viewModel.emailcontrol.text,
+                        password: viewModel.passwordcontrol.text,
+                      );
 
-                            if (result) {
-                              viewModel.emailcontrol.clear();
-                              viewModel.passwordcontrol.clear();
-                              viewModel.runHomeView();
-                            } else {
-                              viewModel.showRegularDailog(
-                                'Login Failed',
-                                viewModel.loginModel?.message ??
-                                    'Something went wrong. Please try again.',
-                              );
-                            }
-                          }
-                        },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff4FC7B1),
-                    padding: const EdgeInsets.symmetric(
-                      //horizontal: 32.0,
-                      vertical: 16.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: viewModel.isLoading
-                      ? const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.blue),
-                        )
-                      : Text(
-                          'Login',
-                          style: AppFonts.extraBold(
-                            color: Colors.white,
-                            fontSize: 17,
-                          ),
-                        ),
+                      if (result) {
+                        viewModel.emailcontrol.clear();
+                        viewModel.passwordcontrol.clear();
+                        viewModel.runHomeView();
+                      } else {
+                        viewModel.showRegularDailog(
+                          'Login Failed',
+                          viewModel.loginModel?.message ??
+                              'Something went wrong. Please try again.',
+                        );
+                      }
+                    }
+                  },
+                  text: 'Login',
+                  backgroundColor: const Color(0xff4FC7B1),
                 ),
               ),
               const SizedBox(

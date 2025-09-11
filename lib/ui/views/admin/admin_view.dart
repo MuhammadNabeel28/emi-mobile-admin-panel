@@ -12,7 +12,11 @@ class AdminView extends StackedView<AdminViewModel> {
     Widget? child,
   ) {
     return const Scaffold(
-      body: Center(child: Text('Admin View', style: TextStyle(fontSize: 24))),
+      body: Column(
+        children: [
+          Center(child: Text('Admin View', style: TextStyle(fontSize: 24))),
+        ],
+      ),
     );
   }
 

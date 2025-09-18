@@ -28,9 +28,11 @@ class LoginViewmodel extends BaseViewModel {
   }
 
   void runHomeView() async {
-    isMaster
-        ? _navigationService.replaceWithAdminView()
-        : _navigationService.replaceWithCustomerView();
+    // isMaster
+    //     ? _navigationService.replaceWithAdminView()
+    //     : _navigationService.replaceWithCustomerView();
+
+    _navigationService.replaceWithHomeView();
   }
 
   Future<void> loadCredentials() async {

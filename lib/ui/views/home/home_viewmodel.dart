@@ -1,6 +1,7 @@
 import 'package:emi_solution/app/app.bottomsheets.dart';
 import 'package:emi_solution/app/app.dialogs.dart';
 import 'package:emi_solution/app/app.locator.dart';
+import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/ui/common/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -13,6 +14,7 @@ class HomeViewModel extends BaseViewModel {
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
   bool _isProcessingTap = false;
+  bool isMaster = false;
 
   String get counterLabel => 'Counter is: $_counter';
 
@@ -21,6 +23,10 @@ class HomeViewModel extends BaseViewModel {
   void incrementCounter() {
     _counter++;
     rebuildUi();
+  }
+
+  HomeViewModel() {
+    isMaster = LocalStorage.getbool(LocalStorage.isMasterKey) ?? false;
   }
 
   Future<void> setIndex(int index) async {

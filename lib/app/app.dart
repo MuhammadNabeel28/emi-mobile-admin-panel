@@ -1,6 +1,8 @@
 import 'package:emi_solution/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:emi_solution/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:emi_solution/ui/views/admin/admin_view.dart';
+import 'package:emi_solution/ui/views/admin/client/admin_client_view.dart';
+import 'package:emi_solution/ui/views/admin/dashboard/admin_dashboard_view.dart';
 import 'package:emi_solution/ui/views/customer/customer_view.dart';
 import 'package:emi_solution/ui/views/home/home_view.dart';
 import 'package:emi_solution/ui/views/login/login_view.dart';
@@ -18,6 +20,9 @@ import 'package:stacked_services/stacked_services.dart';
     MaterialRoute(page: SplashView),
     MaterialRoute(page: AdminView),
     MaterialRoute(page: CustomerView),
+    MaterialRoute(page: AdminDashboardView),
+    MaterialRoute(page: AdminClientView),
+
     // @stacked-route
   ],
   dependencies: [

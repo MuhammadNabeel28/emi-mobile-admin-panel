@@ -23,19 +23,11 @@ class SplashViewmodel extends BaseViewModel {
 
     if (islogin && isMaster) {
       await Future.delayed(const Duration(seconds: 2), () {
-        _navigationServices.replaceWithAdminView();
-      });
-    } else if (islogin && !isMaster) {
-      await Future.delayed(const Duration(seconds: 2), () {
-        _navigationServices.replaceWithCustomerView();
+        _navigationServices.replaceWithHomeView();
       });
     } else if (isFirstLaunch) {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithStartupView();
-      });
-    } else {
-      await Future.delayed(const Duration(seconds: 2), () {
-        _navigationServices.replaceWithLoginView();
       });
     }
   }

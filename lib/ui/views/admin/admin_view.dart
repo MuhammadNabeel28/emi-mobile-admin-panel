@@ -11,11 +11,21 @@ class AdminView extends StackedView<AdminViewModel> {
     AdminViewModel viewModel,
     Widget? child,
   ) {
-    return const Scaffold(
-      body: Column(
-        children: [
-          Center(child: Text('Admin View', style: TextStyle(fontSize: 24))),
-        ],
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            height: 100,
+            width: double.infinity,
+            child: Card(
+              child: ListTile(
+                title: Text('Admin Item $index'),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

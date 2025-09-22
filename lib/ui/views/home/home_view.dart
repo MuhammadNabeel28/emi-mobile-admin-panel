@@ -14,7 +14,20 @@ class HomeView extends StackedView<HomeViewModel> {
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     double screenHeight = MediaQuery.of(context).size.height;
     double bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          getAppBarTitle(viewModel.currentIndex),
+          style: AppFonts.semiBold(
+            fontSize: 25,
+            color: Colors.white,
+          ),
+        ),
+        //centerTitle: true,
+        backgroundColor: primaryColor,
+        elevation: 2,
+      ),
       key: viewModel.scaffoldKey,
       body: IndexedStack(index: viewModel.currentIndex, children: [
         _LazyWidget(
@@ -37,18 +50,21 @@ class HomeView extends StackedView<HomeViewModel> {
               label: 'Dashboard',
               isSelected: viewModel.currentIndex == 0,
               onTap: () => viewModel.setIndex(0),
+              isIcon: true,
             ),
             _buildNavItem(
               icon: Icons.manage_accounts,
               label: 'Create Client',
               isSelected: viewModel.currentIndex == 1,
               onTap: () => viewModel.setIndex(1),
+              isIcon: true,
             ),
             _buildNavItem(
               icon: Icons.settings,
               label: 'Settings',
               isSelected: viewModel.currentIndex == 2,
               onTap: () => viewModel.setIndex(2),
+              isIcon: true,
             ),
           ],
         ),
@@ -59,15 +75,12 @@ class HomeView extends StackedView<HomeViewModel> {
   String getAppBarTitle(int index) {
     switch (index) {
       case 0:
-        return 'Clock';
+        return 'Dashboard';
       case 1:
-        return 'Attendance';
+        return 'Create Client';
       case 2:
-        return 'Leave';
-      case 3:
-        return 'Task';
-      case 4:
-        return 'Expense';
+        return 'Settings';
+
       default:
         return 'App';
     }
@@ -84,63 +97,66 @@ Widget _buildNavItem({
   required VoidCallback onTap,
   bool isIcon = false,
 }) {
-  return GestureDetector(
-    onTap: onTap,
-    child: SizedBox(
-      width: 67,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInCubic,
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: isSelected ? primaryColor : Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              transitionBuilder: (child, animation) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
-                );
-              },
-              child: isIcon
-                  ? (icon is IconData
-                      ? Icon(
-                          icon,
-                          key: ValueKey('icon_$label'),
-                          size: 22,
-                          color: isSelected ? Colors.white : primaryColor,
-                        )
-                      : const SizedBox())
-                  : ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                        isSelected ? Colors.white : primaryColor,
-                        BlendMode.srcIn,
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 6),
+    child: GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 67,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: isSelected ? primaryColor : Colors.white,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: (child, animation) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                },
+                child: isIcon
+                    ? (icon is IconData
+                        ? Icon(
+                            icon,
+                            key: ValueKey('icon_$label'),
+                            size: 22,
+                            color: isSelected ? Colors.white : primaryColor,
+                          )
+                        : const SizedBox())
+                    : ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                          isSelected ? Colors.white : primaryColor,
+                          BlendMode.srcIn,
+                        ),
+                        child: Image.asset(
+                          icon.toString(),
+                          key: ValueKey('image_$label'),
+                          width: 22,
+                          height: 22,
+                        ),
                       ),
-                      child: Image.asset(
-                        icon.toString(),
-                        key: ValueKey('image_$label'),
-                        width: 22,
-                        height: 22,
-                      ),
-                    ),
-            ),
-            const SizedBox(height: 4),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 300),
-              style: AppFonts.regular(
-                fontSize: 10,
-                color: isSelected ? Colors.white : primaryColor,
               ),
-              child: Text(
-                label,
+              const SizedBox(height: 4),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 300),
+                style: AppFonts.regular(
+                  fontSize: 10,
+                  color: isSelected ? Colors.white : primaryColor,
+                ),
+                child: Text(
+                  label,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),

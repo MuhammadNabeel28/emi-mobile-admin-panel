@@ -2,6 +2,7 @@ import 'package:emi_solution/ui/common/app_colors.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/admin_view.dart';
 import 'package:emi_solution/ui/views/customer/customer_view.dart';
+import 'package:emi_solution/ui/views/drawer/drawer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -24,10 +25,17 @@ class HomeView extends StackedView<HomeViewModel> {
             color: Colors.white,
           ),
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.menu, color: Colors.white),
+          onPressed: () {
+            viewModel.scaffoldKey.currentState?.openDrawer();
+          },
+        ),
         //centerTitle: true,
         backgroundColor: primaryColor,
         elevation: 2,
       ),
+      drawer: const DrawerView(),
       key: viewModel.scaffoldKey,
       body: IndexedStack(index: viewModel.currentIndex, children: [
         _LazyWidget(

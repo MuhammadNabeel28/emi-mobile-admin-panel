@@ -15,6 +15,7 @@ class HomeViewModel extends BaseViewModel {
   int get currentIndex => _currentIndex;
   bool _isProcessingTap = false;
   bool isMaster = false;
+  
 
   String get counterLabel => 'Counter is: $_counter';
 

@@ -1,6 +1,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!-- Internet Permission -->
+ <uses-permission android:name="android.permission.INTERNET"/>
+
+<!-- For location if you're using geolocation -->
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+<!-- For Android 10+ to allow background location -->
+ <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+<!-- For network state (optional) -->
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+<!-- local Storage -->
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ 
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-        android:label="emi_solution"
+        android:label="EMI Protector"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

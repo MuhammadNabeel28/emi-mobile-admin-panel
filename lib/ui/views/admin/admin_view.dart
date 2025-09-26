@@ -1,3 +1,4 @@
+import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/admin_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -13,15 +14,29 @@ class AdminView extends StackedView<AdminViewModel> {
   ) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: 20,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            height: 100,
+            height: 200,
             width: double.infinity,
             child: Card(
+              elevation: 10,
               child: ListTile(
-                title: Text('Admin Item $index'),
+                title: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Mobile Tech',
+                          style: AppFonts.semiBold(
+                            fontSize: 17,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );

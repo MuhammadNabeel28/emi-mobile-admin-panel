@@ -1,3 +1,4 @@
+import 'package:emi_solution/services/global_services.dart';
 import 'package:emi_solution/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:emi_solution/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:emi_solution/ui/views/admin/admin_view.dart';
@@ -29,6 +30,7 @@ import 'package:stacked_services/stacked_services.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
+    Singleton(classType: GlobalServices),
     // @stacked-service
   ],
   bottomsheets: [

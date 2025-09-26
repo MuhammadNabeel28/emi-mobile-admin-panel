@@ -52,7 +52,7 @@ class DrawerView extends StackedView<DrawerViewModel> {
                             ),
                           ),
                           Text(
-                            'admin',
+                            viewModel.getUserName() ?? "User",
                             style: AppFonts.semiBold(
                               fontSize: 20,
                               color: primaryColor,
@@ -85,6 +85,13 @@ class DrawerView extends StackedView<DrawerViewModel> {
                     //viewModel.navigateToAbout();
                   },
                 ),
+                ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Logout'),
+                  onTap: () {
+                    viewModel.logOut();
+                  },
+                ),
               ],
             ),
           ),
@@ -95,4 +102,10 @@ class DrawerView extends StackedView<DrawerViewModel> {
 
   @override
   DrawerViewModel viewModelBuilder(BuildContext context) => DrawerViewModel();
+
+  @override
+  void onViewModelReady(DrawerViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getUserName();
+  }
 }

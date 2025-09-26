@@ -145,4 +145,8 @@ class LoginViewmodel extends BaseViewModel {
     isChecked = value;
     rebuildUi();
   }
+
+  void loadDetails(){
+    loadCredentials();
+  }
 }

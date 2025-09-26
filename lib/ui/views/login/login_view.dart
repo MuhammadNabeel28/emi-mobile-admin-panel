@@ -224,6 +224,12 @@ class LoginView extends StackedView<LoginViewmodel> {
   LoginViewmodel viewModelBuilder(BuildContext context) => LoginViewmodel();
 
   @override
+  void onViewModelReady(LoginViewmodel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.loadDetails();
+  }
+
+  @override
   void onDispose(LoginViewmodel viewModel) {
     viewModel.emailcontrol.dispose();
     viewModel.passwordcontrol.dispose();

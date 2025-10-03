@@ -1,6 +1,8 @@
 import 'package:emi_solution/ui/common/app_colors.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
-import 'package:emi_solution/ui/views/admin/admin_view.dart';
+import 'package:emi_solution/ui/views/admin/client/admin_client_viewmodel.dart';
+import 'package:emi_solution/ui/views/admin/client/create_client_view.dart';
+import 'package:emi_solution/ui/views/admin/dashboard/admin_dashboard_view.dart';
 import 'package:emi_solution/ui/views/customer/customer_view.dart';
 import 'package:emi_solution/ui/views/drawer/drawer_view.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,12 @@ class HomeView extends StackedView<HomeViewModel> {
         _LazyWidget(
           index: 0,
           currentIndex: viewModel.currentIndex,
-          child: viewModel.isMaster ? const AdminView() : const CustomerView(),
+          child: viewModel.isMaster ? const AdminDashboardView() : const CustomerView(),
+        ),
+        _LazyWidget(
+          index: 1,
+          currentIndex: viewModel.currentIndex,
+          child: viewModel.isMaster ? const CreateClientView() : const CustomerView(),
         ),
       ]),
       bottomNavigationBar: Container(

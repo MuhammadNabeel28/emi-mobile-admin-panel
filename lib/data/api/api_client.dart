@@ -1,3 +1,5 @@
+// ignore_for_file: strict_top_level_inference
+
 import 'package:dio/dio.dart';
 import 'package:emi_solution/data/api/api_url.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';

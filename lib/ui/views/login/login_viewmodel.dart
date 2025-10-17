@@ -28,10 +28,6 @@ class LoginViewmodel extends BaseViewModel {
   }
 
   void runHomeView() async {
-    // isMaster
-    //     ? _navigationService.replaceWithAdminView()
-    //     : _navigationService.replaceWithCustomerView();
-
     _navigationService.replaceWithHomeView();
   }
 
@@ -99,6 +95,7 @@ class LoginViewmodel extends BaseViewModel {
             LocalStorage.accessTokenKey, loginModel!.accessToken!);
         LocalStorage.setString(LocalStorage.userIdKey, loginModel!.userId!);
         LocalStorage.setString(LocalStorage.userNameKey, username);
+        LocalStorage.setString(LocalStorage.passwordKey, password);
         LocalStorage.setString(
             LocalStorage.refreshTokenKey, loginModel!.refreshToken!);
         LocalStorage.setbool(LocalStorage.isLoginKey, true);

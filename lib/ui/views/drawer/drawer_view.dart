@@ -52,7 +52,9 @@ class DrawerView extends StackedView<DrawerViewModel> {
                             ),
                           ),
                           Text(
-                            viewModel.getUserName() ?? "User",
+                            viewModel.getUserName() != ""
+                                ? viewModel.getUserName() as String
+                                : 'User',
                             style: AppFonts.semiBold(
                               fontSize: 20,
                               color: primaryColor,

@@ -41,10 +41,12 @@ class ApiClient {
       } else if (response.statusCode == 401) {
         final refreshResult = await postRefreshToken(
           token: LocalStorage.getString(LocalStorage.userNameKey),
+          accountId: LocalStorage.getString(LocalStorage.accountIdKey),
           refreshToken: LocalStorage.getString(LocalStorage.refreshTokenKey),
         );
 
-        logger.i("(Api Client  Class) refreseh Token ${refreshResult.toString()}");
+        logger.i(
+            "(Api Client  Class) refreseh Token ${refreshResult.toString()}");
 
         return {
           "success": false,
@@ -52,7 +54,8 @@ class ApiClient {
           "refreshResponse": refreshResult,
         };
       } else {
-        logger.e("(Api CLient request login error)  : Error Message: ${response.statusMessage}}");
+        logger.e(
+            "(Api CLient request login error)  : Error Message: ${response.statusMessage}}");
 
         return {"success": false, "message": response.statusMessage};
       }
@@ -62,15 +65,78 @@ class ApiClient {
     }
   }
 
+  //! get account detail
+  Future<Map<dynamic, dynamic>> getAccountDetail(
+      {required String token}) async {
+    var headers = {'Authorization': 'Bearer $token'};
+
+    try {
+      final response = await dio.get(
+        ApiUrl.getAccountDetail,
+        options: Options(
+          headers: headers,
+          validateStatus: (status) =>
+              status != null && status < 500, // Allow 401 to pass through
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        logger.i("(getAccountDetail success): ${response.data}");
+        return response.data;
+      }
+
+      if (response.statusCode == 401) {
+        logger.w("Token expired. Attempting refresh...");
+        int accountId =
+            await LocalStorage.getInt(LocalStorage.accountIdKey) ?? 0;
+        String userId =
+            await LocalStorage.getString(LocalStorage.userNameKey) ?? '';
+        String refreshToken =
+            await LocalStorage.getString(LocalStorage.refreshTokenKey) ?? '';
+        final refreshResult = await postRefreshToken(
+          token: userId,
+          accountId: accountId,
+          refreshToken: refreshToken,
+        );
+
+        logger.i("Refresh result: $refreshResult");
+
+        if (refreshResult['success'] == true &&
+            refreshResult['accessToken'] != null) {
+          final newToken = refreshResult['accessToken'];
+
+          // Retry with new token
+          return await getAccountDetail(token: newToken!);
+        } else {
+          return {
+            "success": false,
+            "message": "Unauthorized. Token refresh failed.",
+            "refreshResponse": refreshResult,
+          };
+        }
+      }
+
+      logger.e("getAccountDetail error: ${response.statusMessage}");
+      return {
+        "success": false,
+        "message": response.statusMessage ?? "Unknown error",
+      };
+    } catch (e) {
+      AppSnackBar.showError(e.toString());
+      return {"success": false, "message": e.toString()};
+    }
+  }
+
   //! refresh token request
   Future<Map<String, String>> postRefreshToken(
-      {required token, required refreshToken}) async {
+      {required token, required refreshToken, required accountId}) async {
     final headers = {
       'Content-Type': 'application/json',
     };
 
     final body = {
       'userId': token,
+      'accountId': accountId,
       'refreshToken': refreshToken,
     };
     try {
@@ -81,10 +147,12 @@ class ApiClient {
       );
 
       if (response.statusCode == 200) {
-        logger.i("(Api CLient request refreshToken success!!)  : refreshToken: ${response.data}");
+        logger.i(
+            "(Api CLient request refreshToken success!!)  : refreshToken: ${response.data}");
         return response.data;
       } else {
-        logger.e("(Api CLient request refreshToken error )  : Error Message: ${response.statusMessage}}");
+        logger.e(
+            "(Api CLient request refreshToken error )  : Error Message: ${response.statusMessage}}");
 
         return {
           "success": "false",
@@ -95,6 +163,8 @@ class ApiClient {
       AppSnackBar.showError(
         e.toString(),
       );
+      logger.e(
+          "(Api CLient request refreshToken error )  : Error Message: ${e.toString()}}");
       return {"success": "false", "message": e.toString()};
     }
   }

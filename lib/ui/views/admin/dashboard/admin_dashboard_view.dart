@@ -46,5 +46,12 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
   }
 
   @override
-  AdminDashboardViewModel viewModelBuilder(BuildContext context) => AdminDashboardViewModel();
+  AdminDashboardViewModel viewModelBuilder(BuildContext context) =>
+      AdminDashboardViewModel();
+
+  @override
+  void onViewModelReady(AdminDashboardViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.loadDetail();
+  }
 }

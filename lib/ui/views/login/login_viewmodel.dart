@@ -2,7 +2,7 @@ import 'package:emi_solution/app/app.locator.dart';
 import 'package:emi_solution/app/app.router.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/data/model/login_model.dart';
-import 'package:emi_solution/data/repo/post/PostRepository.dart';
+import 'package:emi_solution/data/repo/post/post_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -36,9 +36,9 @@ class LoginViewmodel extends BaseViewModel {
       isChecked = LocalStorage.getbool(LocalStorage.rememberKey) ?? false;
       if (isChecked) {
         final String? storedUserName =
-            LocalStorage.getString(LocalStorage.userIdKey);
+            await LocalStorage.getString(LocalStorage.userIdKey);
         final String? storedPassword =
-            LocalStorage.getString(LocalStorage.passwordKey);
+            await LocalStorage.getString(LocalStorage.passwordKey);
         emailcontrol.text = storedUserName ?? '';
         passwordcontrol.text = storedPassword ?? '';
       } else {
@@ -87,10 +87,11 @@ class LoginViewmodel extends BaseViewModel {
       loginModel = await postRepo.postLogin(
         username: username,
         password: password,
-        deviceId: LocalStorage.getString(LocalStorage.deviceIdKey)!,
+        deviceId: await LocalStorage.getString(LocalStorage.deviceIdKey) ?? '',
       );
 
       if (loginModel != null && loginModel!.success == true) {
+        int accountId = loginModel!.accountId!;
         LocalStorage.setString(
             LocalStorage.accessTokenKey, loginModel!.accessToken!);
         LocalStorage.setString(LocalStorage.userIdKey, loginModel!.userId!);
@@ -100,7 +101,7 @@ class LoginViewmodel extends BaseViewModel {
             LocalStorage.refreshTokenKey, loginModel!.refreshToken!);
         LocalStorage.setbool(LocalStorage.isLoginKey, true);
         LocalStorage.setbool(LocalStorage.launchFirstKey, true);
-        LocalStorage.setInt(LocalStorage.accountIdKey, loginModel!.accountId!);
+        LocalStorage.setInt(LocalStorage.accountIdKey, accountId);
 
         LocalStorage.setbool(LocalStorage.launchFirstKey, false);
 
@@ -143,7 +144,7 @@ class LoginViewmodel extends BaseViewModel {
     rebuildUi();
   }
 
-  void loadDetails(){
+  void loadDetails() {
     loadCredentials();
   }
 }

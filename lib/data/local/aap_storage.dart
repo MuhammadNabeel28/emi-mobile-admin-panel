@@ -40,7 +40,7 @@ class LocalStorage {
   }
 
   //! Get a String value
-  static String? getString(String key) {
+  static Future<String?> getString(String key) async {
     try {
       if (key.isEmpty) {
         logger.w("Key cannot be empty");

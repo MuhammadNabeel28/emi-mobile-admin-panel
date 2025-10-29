@@ -1,5 +1,7 @@
 // ignore_for_file: strict_top_level_inference
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:emi_solution/data/api/api_url.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
@@ -40,7 +42,7 @@ class ApiClient {
         return response.data;
       } else if (response.statusCode == 401) {
         final refreshResult = await postRefreshToken(
-          token: LocalStorage.getString(LocalStorage.userNameKey),
+          userId: LocalStorage.getString(LocalStorage.userNameKey),
           accountId: LocalStorage.getString(LocalStorage.accountIdKey),
           refreshToken: LocalStorage.getString(LocalStorage.refreshTokenKey),
         );
@@ -66,35 +68,49 @@ class ApiClient {
   }
 
   //! get account detail
-  Future<Map<dynamic, dynamic>> getAccountDetail(
-      {required String token}) async {
-    var headers = {'Authorization': 'Bearer $token'};
+  Future<Map<String, dynamic>> getAccountDetail({required String token}) async {
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
 
     try {
       final response = await dio.get(
         ApiUrl.getAccountDetail,
         options: Options(
           headers: headers,
-          validateStatus: (status) =>
-              status != null && status < 500, // Allow 401 to pass through
+          validateStatus: (status) => status != null && status < 500,
         ),
       );
 
+      logger.i("Response status: ${response.statusCode}");
+      logger.i("Response type: ${response.data.runtimeType}");
+      logger.i("Response body: ${response.data}");
+
       if (response.statusCode == 200) {
-        logger.i("(getAccountDetail success): ${response.data}");
-        return response.data;
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        } else if (response.data is List && response.data.isNotEmpty) {
+          return response.data[0] as Map<String, dynamic>;
+        } else {
+          return {
+            "success": false,
+            "message": "Unexpected response format",
+          };
+        }
       }
 
       if (response.statusCode == 401) {
         logger.w("Token expired. Attempting refresh...");
-        int accountId =
+
+        final accountId =
             await LocalStorage.getInt(LocalStorage.accountIdKey) ?? 0;
-        String userId =
-            await LocalStorage.getString(LocalStorage.userNameKey) ?? '';
-        String refreshToken =
-            await LocalStorage.getString(LocalStorage.refreshTokenKey) ?? '';
+        final userId = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
+        final refreshToken =
+            LocalStorage.getString(LocalStorage.refreshTokenKey) ?? '';
+
         final refreshResult = await postRefreshToken(
-          token: userId,
+          userId: userId,
           accountId: accountId,
           refreshToken: refreshToken,
         );
@@ -104,8 +120,6 @@ class ApiClient {
         if (refreshResult['success'] == true &&
             refreshResult['accessToken'] != null) {
           final newToken = refreshResult['accessToken'];
-
-          // Retry with new token
           return await getAccountDetail(token: newToken!);
         } else {
           return {
@@ -116,34 +130,41 @@ class ApiClient {
         }
       }
 
-      logger.e("getAccountDetail error: ${response.statusMessage}");
       return {
         "success": false,
         "message": response.statusMessage ?? "Unknown error",
       };
     } catch (e) {
       AppSnackBar.showError(e.toString());
-      return {"success": false, "message": e.toString()};
+      logger.e("getAccountDetail exception: ${e.toString()}");
+      return {
+        "success": false,
+        "message": e.toString(),
+      };
     }
   }
 
   //! refresh token request
   Future<Map<String, String>> postRefreshToken(
-      {required token, required refreshToken, required accountId}) async {
+      {required userId, required refreshToken, required accountId}) async {
     final headers = {
       'Content-Type': 'application/json',
     };
 
-    final body = {
-      'userId': token,
-      'accountId': accountId,
-      'refreshToken': refreshToken,
-    };
+    var data = json.encode({
+      "userId": userId,
+      "accountId": accountId,
+      "refreshToken": refreshToken
+    });
+
     try {
       final response = await dio.post(
         ApiUrl.refreshUrl,
-        data: body,
-        options: Options(headers: headers),
+        options: Options(
+          headers: headers,
+          validateStatus: (status) => status != null && status < 500,
+        ),
+        data: data,
       );
 
       if (response.statusCode == 200) {

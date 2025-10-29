@@ -52,9 +52,7 @@ class DrawerView extends StackedView<DrawerViewModel> {
                             ),
                           ),
                           Text(
-                            viewModel.getUserName() != ""
-                                ? viewModel.getUserName() as String
-                                : 'User',
+                            viewModel.globalService.userName.toString(),
                             style: AppFonts.semiBold(
                               fontSize: 20,
                               color: primaryColor,
@@ -108,6 +106,5 @@ class DrawerView extends StackedView<DrawerViewModel> {
   @override
   void onViewModelReady(DrawerViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    viewModel.getUserName();
   }
 }

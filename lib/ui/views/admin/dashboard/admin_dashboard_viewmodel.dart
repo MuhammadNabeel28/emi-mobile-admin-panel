@@ -11,8 +11,8 @@ class AdminDashboardViewModel extends BaseViewModel {
   AccountDetailModel? acDetailModel;
   final getRepo = GetRepository();
 
-  void loadDetail() async{
-    String? token = await LocalStorage.getString(LocalStorage.accessTokenKey);
+  void loadDetail() async {
+    String? token = LocalStorage.getString(LocalStorage.accessTokenKey);
     getRepo.getAccountDetail(token!).then((accountDetail) {
       acDetailModel = accountDetail;
       notifyListeners();

@@ -6,8 +6,8 @@ class GlobalServices {
   String? clientName = "";
   int? accountId = 0;
 
-  Future<String?> getUserName() async {
-    userName = await LocalStorage.getString(LocalStorage.userNameKey);
+   String? getUserName() {
+    userName = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
     return userName;
   }
 }

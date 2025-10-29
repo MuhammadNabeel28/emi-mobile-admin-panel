@@ -12,8 +12,8 @@ class DrawerViewModel extends BaseViewModel {
     navigationService_.replaceWithLoginView();
   }
 
-  Future<String?> getUserName() async {
-    String? name = await globalService.getUserName();
-    return name;
-  }
+  // Future<String?> getUserName() async {
+  //   String? name = await globalService.getUserName();
+  //   return name;
+  // }
 }

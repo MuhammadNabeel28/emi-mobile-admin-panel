@@ -6,8 +6,7 @@ class GetRepository {
 
   //! get account detail repo
   Future<AccountDetailModel> getAccountDetail(String token) async {
-    Map<String, dynamic> response =
-        await apiClient.getAccountDetail(token: token);
-    return AccountDetailModel.fromJson(response);
+    final response = await apiClient.getAccountDetail(token: token);
+    return AccountDetailModel.fromJson(Map<String, dynamic>.from(response));
   }
 }

@@ -14,7 +14,7 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
   ) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: 1,
+        itemCount: viewModel.acDetailResponse?.accountDetails?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -24,17 +24,18 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
               elevation: 10,
               child: ListTile(
                 title: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Mobile Tech',
-                          style: AppFonts.semiBold(
-                            fontSize: 17,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Account Name: ${viewModel.acDetailModel?.accountName ?? ''}',
+                      style: AppFonts.semiBold(
+                        fontSize: 17,
+                      ),
                     ),
+                    Spacer(),
+                    Text(' ${viewModel.acDetailModel?.accountId ?? ''}',
+                        style: AppFonts.regular(fontSize: 14)),
                   ],
                 ),
               ),

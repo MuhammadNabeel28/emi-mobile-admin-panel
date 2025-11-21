@@ -3,6 +3,7 @@ import 'package:emi_solution/data/model/account_detail_model.dart';
 
 class GetRepository {
   final ApiClient apiClient = ApiClient();
+  AccountDetailModel? accountDetailModel;
 
   //! get account detail repo
   Future<AccountDetailModel> getAccountDetail(String token) async {

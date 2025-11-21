@@ -9,12 +9,13 @@ class AdminDashboardViewModel extends BaseViewModel {
   final navigationServices = locator<NavigationService>();
   final LocalStorage localStorage = LocalStorage();
   AccountDetailModel? acDetailModel;
+  AccountDetailResponse? acDetailResponse;
   final getRepo = GetRepository();
 
   void loadDetail() async {
     String? token = LocalStorage.getString(LocalStorage.accessTokenKey);
-    getRepo.getAccountDetail(token!).then((accountDetail) {
-      acDetailModel = accountDetail;
+    getRepo.getAccountDetail(token!).then((acDetailResponse) {
+      acDetailResponse = acDetailResponse;
       notifyListeners();
     });
   }

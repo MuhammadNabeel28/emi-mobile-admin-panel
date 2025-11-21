@@ -145,7 +145,7 @@ class ApiClient {
   }
 
   //! refresh token request
-  Future<Map<String, String>> postRefreshToken(
+  Future<Map<String, dynamic>> postRefreshToken(
       {required userId, required refreshToken, required accountId}) async {
     final headers = {
       'Content-Type': 'application/json',

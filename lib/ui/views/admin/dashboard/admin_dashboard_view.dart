@@ -14,7 +14,7 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
   ) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: viewModel.acDetailResponse?.accountDetails?.length ?? 0,
+        itemCount: viewModel.acDetailModel?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -28,14 +28,15 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Account Name: ${viewModel.acDetailModel?.accountName ?? ''}',
+                      'Account Name: ${viewModel.acDetailModel?[index].accountName ?? ''}',
                       style: AppFonts.semiBold(
                         fontSize: 17,
                       ),
                     ),
-                    Spacer(),
-                    Text(' ${viewModel.acDetailModel?.accountId ?? ''}',
-                        style: AppFonts.regular(fontSize: 14)),
+                    SizedBox(height: 8),
+                    Text(
+                        'Account Id: ${viewModel.acDetailModel?[index].accountId ?? ''}',
+                        style: AppFonts.semiBold(fontSize: 17)),
                   ],
                 ),
               ),

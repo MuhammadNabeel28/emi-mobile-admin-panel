@@ -6,8 +6,15 @@ class GetRepository {
   AccountDetailModel? accountDetailModel;
 
   //! get account detail repo
-  Future<AccountDetailModel> getAccountDetail(String token) async {
+  Future<List<AccountDetailModel>> getAccountDetail(String token) async {
     final response = await apiClient.getAccountDetail(token: token);
-    return AccountDetailModel.fromJson(Map<String, dynamic>.from(response));
+
+    if (response is List) {
+      return response
+          .map((e) => AccountDetailModel.fromJson(Map<String, dynamic>.from(e)))
+          .toList();
+    } else {
+      return [AccountDetailModel.fromJson(Map<String, dynamic>.from(response))];
+    }
   }
 }

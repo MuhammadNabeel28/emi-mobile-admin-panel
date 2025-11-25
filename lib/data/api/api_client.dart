@@ -68,7 +68,7 @@ class ApiClient {
   }
 
   //! get account detail
-  Future<Map<String, dynamic>> getAccountDetail({required String token}) async {
+  Future<dynamic> getAccountDetail({required String token}) async {
     final headers = {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
@@ -89,9 +89,9 @@ class ApiClient {
 
       if (response.statusCode == 200) {
         if (response.data is Map<String, dynamic>) {
-          return response.data;
+          return response.data; // single object
         } else if (response.data is List && response.data.isNotEmpty) {
-          return response.data[0] as Map<String, dynamic>;
+          return response.data; // full list, not just [0]
         } else {
           return {
             "success": false,

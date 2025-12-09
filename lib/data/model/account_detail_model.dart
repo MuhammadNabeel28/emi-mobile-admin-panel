@@ -10,9 +10,9 @@ class AccountDetailModel {
   bool? isMaster;
   bool? isExpired;
   String? createdOn;
-  int? createdBy;
+  String? createdBy;
   String? modifiedOn;
-  int? modifiedBy;
+  String? modifiedBy;
 
   AccountDetailModel(
       {this.id,

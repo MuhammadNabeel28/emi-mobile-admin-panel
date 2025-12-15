@@ -87,7 +87,7 @@ class LoginViewmodel extends BaseViewModel {
       loginModel = await postRepo.postLogin(
         username: username,
         password: password,
-        deviceId: await LocalStorage.getString(LocalStorage.deviceIdKey) ?? '',
+        deviceId: LocalStorage.getString(LocalStorage.deviceIdKey) ?? '',
       );
 
       if (loginModel != null && loginModel!.success == true) {

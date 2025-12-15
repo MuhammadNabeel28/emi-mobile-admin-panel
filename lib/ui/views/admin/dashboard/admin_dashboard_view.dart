@@ -45,25 +45,63 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                       ],
                     ),
                     SizedBox(height: 8),
-                    Text(
-                        'Account Id: ${viewModel.acDetailModel?[index].accountId ?? ''}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Account Id:',
+                              style: AppFonts.semiBold(fontSize: 17)),
+                          Text(
+                              '${viewModel.acDetailModel?[index].accountId ?? ''}',
+                              style: AppFonts.semiBold(fontSize: 17)),
+                        ]),
                     SizedBox(height: 8),
-                    Text(
-                        'Email: ${viewModel.acDetailModel?[index].email ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            'Email: ${viewModel.acDetailModel?[index].email ?? 'Not Available'}',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Text(
+                            viewModel.acDetailModel?[index].email ??
+                                'Not Available',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                      ],
+                    ),
                     SizedBox(height: 8),
-                    Text(
-                        'Contact Info: ${viewModel.acDetailModel?[index].contactInfo ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Contact Info:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Text(
+                            viewModel.acDetailModel?[index].contactInfo ??
+                                'Not Available',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                      ],
+                    ),
                     SizedBox(height: 8),
-                    Text(
-                        'licenseKey: ${viewModel.acDetailModel?[index].licenseKey ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('licenseKey:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Text(
+                          '${viewModel.acDetailModel?[index].licenseKey ?? 'Not Available'}',
+                          style: AppFonts.semiBold(fontSize: 17),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 8),
-                    Text(
-                        'Device Limit: ${viewModel.acDetailModel?[index].deviceLimit ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Device Limit:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Text(
+                            '${viewModel.acDetailModel?[index].deviceLimit ?? 'Not Available'}',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                      ],
+                    ),
                     SizedBox(height: 8),
                     Text(
                         'Expiry Date: ${viewModel.acDetailModel?[index].expiryDate ?? 'Not Available'}',

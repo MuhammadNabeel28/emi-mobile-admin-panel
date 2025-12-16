@@ -9,6 +9,7 @@ class AccountDetailModel {
   String? expiryDate;
   bool? isMaster;
   bool? isExpired;
+  bool? activeStatus;
   String? createdOn;
   String? createdBy;
   String? modifiedOn;
@@ -25,6 +26,7 @@ class AccountDetailModel {
       this.expiryDate,
       this.isMaster,
       this.isExpired,
+      this.activeStatus,
       this.createdOn,
       this.createdBy,
       this.modifiedOn,
@@ -40,7 +42,8 @@ class AccountDetailModel {
     deviceLimit = json['deviceLimit'];
     expiryDate = json['expiryDate'];
     isMaster = json['isMaster'];
-    isExpired = json['isExpired'];
+    isExpired = json['isExpired'] ?? false;
+    activeStatus = json['activeStatus'] ?? false;
     createdOn = json['createdOn'];
     createdBy = json['createdBy'];
     modifiedOn = json['modifiedOn'];
@@ -59,6 +62,7 @@ class AccountDetailModel {
     data['expiryDate'] = expiryDate;
     data['isMaster'] = isMaster;
     data['isExpired'] = isExpired;
+    data['activeStatus'] = activeStatus;
     data['createdOn'] = createdOn;
     data['createdBy'] = createdBy;
     data['modifiedOn'] = modifiedOn;

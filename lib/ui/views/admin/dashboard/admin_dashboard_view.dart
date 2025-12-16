@@ -17,15 +17,15 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
         itemCount: viewModel.acDetailModel?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             height: 300,
             width: double.infinity,
             child: Card(
               elevation: 10,
               child: ListTile(
                 title: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,8 +59,11 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            'Email: ${viewModel.acDetailModel?[index].email ?? 'Not Available'}',
-                            style: AppFonts.semiBold(fontSize: 17)),
+                          'Email:',
+                          style: AppFonts.semiBold(
+                            fontSize: 17,
+                          ),
+                        ),
                         Text(
                             viewModel.acDetailModel?[index].email ??
                                 'Not Available',
@@ -103,21 +106,87 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                       ],
                     ),
                     SizedBox(height: 8),
-                    Text(
-                        'Expiry Date: ${viewModel.acDetailModel?[index].expiryDate ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Expiry Date:',
+                          style: AppFonts.semiBold(
+                            fontSize: 17,
+                          ),
+                        ),
+                        Text(
+                          viewModel.acDetailModel?[index].expiryDate ??
+                              'Not Available',
+                          style: AppFonts.semiBold(
+                            fontSize: 17,
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 8),
-                    Text(
-                        'Is Master: ${viewModel.acDetailModel?[index].isMaster ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Is Master:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Text(
+                            '${viewModel.acDetailModel?[index].isMaster ?? 'Not Available'}',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                      ],
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text('Active Status:',
+                    //         style: AppFonts.semiBold(fontSize: 17)),
+                    //     // Switch(
+                    //     //   value: viewModel.acDetailModel?[index].activeStatus ??
+                    //     //       false,
+                    //     //   onChanged: (bool value) {
+                    //     //     viewModel.acDetailModel?[index].activeStatus =
+                    //     //         value;
+                    //     //     viewModel.isSwitchedActive = value;
+
+                    //     //     viewModel.notifyListeners();
+                    //     //   },
+                    //     //   activeTrackColor: Colors.green,
+                    //     //   activeThumbColor: Colors.yellowAccent,
+                    //     // ),
+                    //   ],
+                    // ),
                     SizedBox(height: 8),
-                    Text(
-                        'Account Expire: ${viewModel.acDetailModel?[index].isExpired ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Account Expire:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Switch(
+                          value: viewModel.acDetailModel?[index].isExpired ??
+                              false,
+                          onChanged: (bool value) {
+                            viewModel.acDetailModel?[index].isExpired = value;
+                            viewModel.isSwitchedExpire = value;
+
+                            viewModel.notifyListeners();
+                          },
+                          activeTrackColor: Colors.green,
+                          activeThumbColor: Colors.yellowAccent,
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 8),
-                    Text(
-                        'Created On: ${viewModel.acDetailModel?[index].createdOn ?? 'Not Available'}',
-                        style: AppFonts.semiBold(fontSize: 17)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Created On:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Text(
+                            viewModel.acDetailModel?[index].createdOn ??
+                                'Not Available',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                      ],
+                    ),
                   ],
                 ),
               ),

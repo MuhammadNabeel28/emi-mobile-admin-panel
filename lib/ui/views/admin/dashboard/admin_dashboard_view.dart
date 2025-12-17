@@ -18,7 +18,7 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            height: 300,
+            height: 360,
             width: double.infinity,
             child: Card(
               elevation: 10,
@@ -135,27 +135,26 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                             style: AppFonts.semiBold(fontSize: 17)),
                       ],
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text('Active Status:',
-                    //         style: AppFonts.semiBold(fontSize: 17)),
-                    //     // Switch(
-                    //     //   value: viewModel.acDetailModel?[index].activeStatus ??
-                    //     //       false,
-                    //     //   onChanged: (bool value) {
-                    //     //     viewModel.acDetailModel?[index].activeStatus =
-                    //     //         value;
-                    //     //     viewModel.isSwitchedActive = value;
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Active Status:',
+                            style: AppFonts.semiBold(fontSize: 17)),
+                        Switch(
+                          value: viewModel.acDetailModel?[index].activeStatus ??
+                              false,
+                          onChanged: (bool value) {
+                            viewModel.acDetailModel?[index].activeStatus =
+                                value;
+                            viewModel.isSwitchedActive = value;
 
-                    //     //     viewModel.notifyListeners();
-                    //     //   },
-                    //     //   activeTrackColor: Colors.green,
-                    //     //   activeThumbColor: Colors.yellowAccent,
-                    //     // ),
-                    //   ],
-                    // ),
-                    SizedBox(height: 8),
+                            viewModel.notifyListeners();
+                          },
+                          activeTrackColor: Colors.blueGrey,
+                          activeThumbColor: Colors.green,
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

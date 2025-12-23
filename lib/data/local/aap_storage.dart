@@ -18,6 +18,7 @@ class LocalStorage {
   static const String deviceIdKey = 'deviceIdKey';
   static const String accountIdKey = 'accountIdKey';
   static const String isMasterKey = 'isMasterKey';
+  static const String userLoginIdKey = 'userLoginId';
 
   static Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();

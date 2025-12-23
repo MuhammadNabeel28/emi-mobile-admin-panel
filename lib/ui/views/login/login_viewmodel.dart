@@ -102,6 +102,7 @@ class LoginViewmodel extends BaseViewModel {
         LocalStorage.setbool(LocalStorage.isLoginKey, true);
         LocalStorage.setbool(LocalStorage.launchFirstKey, true);
         LocalStorage.setInt(LocalStorage.accountIdKey, accountId);
+        LocalStorage.setInt(LocalStorage.userLoginIdKey, loginModel!.loginId!);
 
         LocalStorage.setbool(LocalStorage.launchFirstKey, false);
 

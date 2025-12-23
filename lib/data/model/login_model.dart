@@ -7,6 +7,7 @@ class LoginModel {
   bool? isMaster;
   String? message;
   bool? success;
+  int? loginId;
 
   LoginModel(
       {this.accessToken,
@@ -16,7 +17,8 @@ class LoginModel {
       this.userName,
       this.isMaster,
       this.message,
-      this.success});
+      this.success,
+      this.loginId});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];
@@ -27,6 +29,7 @@ class LoginModel {
     isMaster = json['isMaster'];
     message = json['message'];
     success = json['success'];
+    loginId = json['loginId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class LoginModel {
     data['isMaster'] = isMaster;
     data['message'] = message;
     data['success'] = success;
+    data['loginId'] = loginId;
     return data;
   }
 }

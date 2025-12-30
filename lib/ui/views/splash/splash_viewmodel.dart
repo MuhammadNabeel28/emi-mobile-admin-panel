@@ -29,7 +29,12 @@ class SplashViewmodel extends BaseViewModel {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithStartupView();
       });
+    }else{
+      await Future.delayed(const Duration(seconds: 2), () {
+        _navigationServices.replaceWithLoginView();
+      });
     }
+
   }
 
   void getDeviceId() async {

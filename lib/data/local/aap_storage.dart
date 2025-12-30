@@ -77,4 +77,18 @@ class LocalStorage {
   static Future<int?> getInt(String key) async {
     return _preferences.getInt(key);
   }
+
+  static Future<void> clearAll() async {
+    await _preferences.remove(isLoginNew);
+    await _preferences.remove(userLoginKey);
+    await _preferences.remove(refreshTokenKey);
+    await _preferences.remove(accessTokenKey);
+    await _preferences.remove(isLoginKey);
+    await _preferences.remove(deviceIdKey);
+    await _preferences.remove(accountIdKey);
+    await _preferences.remove(isMasterKey);
+    await _preferences.remove(userLoginIdKey);
+
+    logger.i("(Local Storage Class) : Cleared all local storage data");
+  }
 }

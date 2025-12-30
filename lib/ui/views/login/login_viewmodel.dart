@@ -36,9 +36,9 @@ class LoginViewmodel extends BaseViewModel {
       isChecked = LocalStorage.getbool(LocalStorage.rememberKey) ?? false;
       if (isChecked) {
         final String? storedUserName =
-            await LocalStorage.getString(LocalStorage.userIdKey);
+            LocalStorage.getString(LocalStorage.userIdKey);
         final String? storedPassword =
-            await LocalStorage.getString(LocalStorage.passwordKey);
+             LocalStorage.getString(LocalStorage.passwordKey);
         emailcontrol.text = storedUserName ?? '';
         passwordcontrol.text = storedPassword ?? '';
       } else {
@@ -103,8 +103,7 @@ class LoginViewmodel extends BaseViewModel {
         LocalStorage.setbool(LocalStorage.launchFirstKey, true);
         LocalStorage.setInt(LocalStorage.accountIdKey, accountId);
         LocalStorage.setInt(LocalStorage.userLoginIdKey, loginModel!.loginId!);
-
-        LocalStorage.setbool(LocalStorage.launchFirstKey, false);
+        print('Login ID stored: ${loginModel!.loginId!}');
 
         isMaster = loginModel!.isMaster!;
 

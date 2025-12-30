@@ -1,4 +1,5 @@
 import 'package:emi_solution/data/api/api_client.dart';
+import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/data/model/account_active_model.dart';
 import 'package:emi_solution/data/model/login_model.dart';
 
@@ -19,14 +20,17 @@ class PostRepository {
     return LoginModel.fromJson(response);
   }
 
-  // Future<AccountActiveModel> postAccountActive({
-  //   required int accountId,
-  //   required bool activeStatus,
-  // }) async {
-  //   Map<String, dynamic> response = await apiClient.postAccountActive(
-  //     accountId: accountId,
-  //     activeStatus: activeStatus,
-  //   );
-  //   return AccountActiveModel.fromJson(response);
-  // }
+  Future<AccountActiveModel> postAccountActive({
+    required int accountId,
+    required bool activeStatus,
+    required int loginId,
+  }) async {
+    Map<String, dynamic> response = await apiClient.postAccountActive(
+      accountId: accountId,
+      activeStatus: activeStatus,
+      loginId: loginId,
+      token: LocalStorage.getString(LocalStorage.accessTokenKey)!,
+    );
+    return AccountActiveModel.fromJson(response);
+  }
 }

@@ -31,8 +31,18 @@ class AdminDashboardViewModel extends BaseViewModel {
     });
   }
 
-  void toggleExpired(int index, bool value) {
+  void toggleExpired(int index, bool value) async {
     isSwitchedExpire = value;
+    final response = await postRepo.postAccountExpiry(
+      accountId: acDetailModel![index].accountId!,
+      expiredStatus: value,
+      loginId: (await LocalStorage.getInt(LocalStorage.userLoginIdKey))!,
+    );
+    if (response.success == true) {
+      acDetailModel?[index].isExpired = value;
+    } else {
+      acDetailModel?[index].isExpired = !value;
+    }
 
     notifyListeners();
   }

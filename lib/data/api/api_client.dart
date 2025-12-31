@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:emi_solution/data/api/api_url.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/ui/widget/custom_snackbar.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 class ApiClient {
@@ -192,6 +191,8 @@ class ApiClient {
     }
   }
 
+
+  //! account active/inactive request
   Future<Map<String, dynamic>> postAccountActive({
     required bool activeStatus,
     required int accountId,
@@ -210,7 +211,7 @@ class ApiClient {
     };
 
     try {
-      print('token in api client: $token');
+      
       final response = await dio.post(
         ApiUrl.postAccountActiveInActive,
         data: body,
@@ -273,4 +274,87 @@ class ApiClient {
       return {"success": false, "message": e.toString()};
     }
   }
+
+  //! account expiry request
+  Future<Map<String, dynamic>> postAccountExpiry({
+    required bool expiredStatus,
+    required int accountId,
+    required int loginId,
+    required String token,
+  }) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    final body = {
+      'status': expiredStatus,
+      'loginId': loginId,
+      'accountId': accountId,
+    };
+
+    try {
+      final response = await dio.post(
+        ApiUrl.postAccountExpiry,
+        data: body,
+        options: Options(
+          headers: headers,
+          validateStatus: (status) => true,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        AppSnackBar.showSuccess(
+            expiredStatus ? 'Account Expired' : 'Account Unexpired');
+        logger.i(
+            "(Api CLient request account expiry success!!)  : account expiry response: ${response.data}");
+        return response.data;
+      } else if (response.statusCode == 401) {
+        final accountId =
+            await LocalStorage.getInt(LocalStorage.accountIdKey) ?? 0;
+        final userId = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
+        final refreshToken =
+            LocalStorage.getString(LocalStorage.refreshTokenKey) ?? '';
+        final refreshResult = await postRefreshToken(
+          userId: userId,
+          accountId: accountId,
+          refreshToken: refreshToken,
+        );
+
+        bool expiredStatus_ = expiredStatus;
+        int accountId_ = accountId;
+        int loginId_ = loginId;
+
+        logger.i(
+            "(Api Client  Class) refreseh Token ${refreshResult.toString()}");
+
+        if (refreshResult['success'] == true &&
+            refreshResult['accessToken'] != null) {
+          final newToken = refreshResult['accessToken'];
+          LocalStorage.setString(LocalStorage.accessTokenKey, newToken!);
+          return await postAccountExpiry(
+            token: newToken!,
+            expiredStatus: expiredStatus_,
+            accountId: accountId_,
+            loginId: loginId_,
+          );
+        } else {
+          return {
+            "success": false,
+            "message": "Unauthorized. Token refresh failed.",
+            "refreshResponse": refreshResult,
+          };
+        }
+      } else {
+        logger.e(
+            "(Api CLient request account expiry error)  : Error Message: ${response.statusMessage}}");
+
+        return {"success": false, "message": response.statusMessage};
+      }
+    } catch (e) {
+      AppSnackBar.showError('$e');
+      return {"success": false, "message": e.toString()};
+    }
+  }
+
 }

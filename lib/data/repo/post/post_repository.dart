@@ -1,6 +1,7 @@
 import 'package:emi_solution/data/api/api_client.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/data/model/account_active_model.dart';
+import 'package:emi_solution/data/model/account_expiry_model.dart';
 import 'package:emi_solution/data/model/login_model.dart';
 
 class PostRepository {
@@ -32,5 +33,19 @@ class PostRepository {
       token: LocalStorage.getString(LocalStorage.accessTokenKey)!,
     );
     return AccountActiveModel.fromJson(response);
+  }
+
+  Future<AccountExpiryModel> postAccountExpiry({
+    required int accountId,
+    required bool expiredStatus,
+    required int loginId,
+  }) async {
+    Map<String, dynamic> response = await apiClient.postAccountExpiry(
+      accountId: accountId,
+      expiredStatus: expiredStatus,
+      loginId: loginId,
+      token: LocalStorage.getString(LocalStorage.accessTokenKey)!,
+    );
+    return AccountExpiryModel.fromJson(response);
   }
 }

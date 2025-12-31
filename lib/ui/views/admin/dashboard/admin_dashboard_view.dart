@@ -164,10 +164,9 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                           value: viewModel.acDetailModel?[index].isExpired ??
                               false,
                           onChanged: (bool value) {
-                            print("Switch toggled: $index $value");
                             viewModel.acDetailModel?[index].isExpired = value;
                             viewModel.isSwitchedExpire = value;
-
+                            viewModel.toggleExpired(index, value);
                             viewModel.notifyListeners();
                           },
                           activeTrackColor: Colors.green,

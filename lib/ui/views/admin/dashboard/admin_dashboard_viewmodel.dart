@@ -1,13 +1,9 @@
 import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:emi_solution/app/app.locator.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/data/model/account_detail_model.dart';
 import 'package:emi_solution/data/repo/get/get_repository.dart';
 import 'package:emi_solution/data/repo/post/post_repository.dart';
-import 'package:emi_solution/ui/widget/custom_snackbar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

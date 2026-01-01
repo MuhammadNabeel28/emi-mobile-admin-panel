@@ -18,10 +18,10 @@ class SplashViewmodel extends BaseViewModel {
     getDeviceId();
     final isFirstLaunch =
         LocalStorage.getbool(LocalStorage.launchFirstKey) ?? true;
-    final islogin = LocalStorage.getbool(LocalStorage.isLoginKey) ?? false;
+    //final islogin = LocalStorage.getbool(LocalStorage.isLoginKey) ?? false;
     final isMaster = LocalStorage.getbool(LocalStorage.isMasterKey) ?? false;
 
-    if (islogin && isMaster) {
+    if (isMaster) {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithHomeView();
       });
@@ -29,12 +29,11 @@ class SplashViewmodel extends BaseViewModel {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithStartupView();
       });
-    }else{
+    } else {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithLoginView();
       });
     }
-
   }
 
   void getDeviceId() async {

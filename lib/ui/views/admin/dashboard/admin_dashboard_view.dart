@@ -14,17 +14,19 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
   ) {
     return Scaffold(
       body: ListView.builder(
+        //padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         itemCount: viewModel.acDetailModel?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            height: 360,
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            height: viewModel.acDetailModel?[index].accountId == 1 ? 295 : 345,
             width: double.infinity,
             child: Card(
               elevation: 10,
               child: ListTile(
+                contentPadding: const EdgeInsets.all(10.0),
                 title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
@@ -140,19 +142,23 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                       children: [
                         Text('Active Status:',
                             style: AppFonts.semiBold(fontSize: 17)),
-                        Switch(
-                          value: viewModel.acDetailModel?[index].activeStatus ??
-                              false,
-                          onChanged: (bool value) {
-                            viewModel.acDetailModel?[index].activeStatus =
-                                value;
-                            viewModel.isSwitchedActive = value;
-                            viewModel.toggleActive(index, value);
-                            viewModel.notifyListeners();
-                          },
-                          activeTrackColor: Colors.blueGrey,
-                          activeThumbColor: Colors.green,
-                        ),
+                        viewModel.acDetailModel?[index].accountId == 1
+                            ? Text('N/A',
+                                style: AppFonts.semiBold(fontSize: 17))
+                            : Switch(
+                                value: viewModel
+                                        .acDetailModel?[index].activeStatus ??
+                                    false,
+                                onChanged: (bool value) {
+                                  viewModel.acDetailModel?[index].activeStatus =
+                                      value;
+                                  viewModel.isSwitchedActive = value;
+                                  viewModel.toggleActive(index, value);
+                                  viewModel.notifyListeners();
+                                },
+                                activeTrackColor: Colors.blueGrey,
+                                activeThumbColor: Colors.green,
+                              ),
                       ],
                     ),
                     Row(
@@ -160,18 +166,23 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
                       children: [
                         Text('Account Expire:',
                             style: AppFonts.semiBold(fontSize: 17)),
-                        Switch(
-                          value: viewModel.acDetailModel?[index].isExpired ??
-                              false,
-                          onChanged: (bool value) {
-                            viewModel.acDetailModel?[index].isExpired = value;
-                            viewModel.isSwitchedExpire = value;
-                            viewModel.toggleExpired(index, value);
-                            viewModel.notifyListeners();
-                          },
-                          activeTrackColor: Colors.green,
-                          activeThumbColor: Colors.yellowAccent,
-                        ),
+                        viewModel.acDetailModel?[index].accountId == 1
+                            ? Text('N/A',
+                                style: AppFonts.semiBold(fontSize: 17))
+                            : Switch(
+                                value:
+                                    viewModel.acDetailModel?[index].isExpired ??
+                                        false,
+                                onChanged: (bool value) {
+                                  viewModel.acDetailModel?[index].isExpired =
+                                      value;
+                                  viewModel.isSwitchedExpire = value;
+                                  viewModel.toggleExpired(index, value);
+                                  viewModel.notifyListeners();
+                                },
+                                activeTrackColor: Colors.green,
+                                activeThumbColor: Colors.yellowAccent,
+                              ),
                       ],
                     ),
                     SizedBox(height: 8),

@@ -14,7 +14,6 @@ class AdminDashboardView extends StackedView<AdminDashboardViewModel> {
   ) {
     return Scaffold(
       body: ListView.builder(
-        //padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         itemCount: viewModel.acDetailModel?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(

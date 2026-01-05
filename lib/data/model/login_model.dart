@@ -8,6 +8,8 @@ class LoginModel {
   String? message;
   bool? success;
   int? loginId;
+  bool? activeStatus;
+  bool? expiryStatus;
 
   LoginModel(
       {this.accessToken,
@@ -18,7 +20,9 @@ class LoginModel {
       this.isMaster,
       this.message,
       this.success,
-      this.loginId});
+      this.loginId,
+      this.activeStatus,
+      this.expiryStatus});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];
@@ -30,6 +34,8 @@ class LoginModel {
     message = json['message'];
     success = json['success'];
     loginId = json['loginId'];
+    activeStatus = json['active'];
+    expiryStatus = json['expiry'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +49,8 @@ class LoginModel {
     data['message'] = message;
     data['success'] = success;
     data['loginId'] = loginId;
+    data['active'] = activeStatus;
+    data['expiry'] = expiryStatus;
     return data;
   }
 }

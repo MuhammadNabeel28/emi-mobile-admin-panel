@@ -38,7 +38,7 @@ class LoginViewmodel extends BaseViewModel {
         final String? storedUserName =
             LocalStorage.getString(LocalStorage.userIdKey);
         final String? storedPassword =
-             LocalStorage.getString(LocalStorage.passwordKey);
+            LocalStorage.getString(LocalStorage.passwordKey);
         emailcontrol.text = storedUserName ?? '';
         passwordcontrol.text = storedPassword ?? '';
       } else {
@@ -91,6 +91,16 @@ class LoginViewmodel extends BaseViewModel {
       );
 
       if (loginModel != null && loginModel!.success == true) {
+        if (loginModel?.activeStatus == false) {
+          await showRegularDailog("Login Failed",
+              "Your account is deactivated. Please contact support.");
+          return false;
+        }
+        if (loginModel?.expiryStatus == true) {
+          await showRegularDailog("Login Failed",
+              "Your account has expired. Please contact support.");
+          return false;
+        }
         int accountId = loginModel!.accountId!;
         LocalStorage.setString(
             LocalStorage.accessTokenKey, loginModel!.accessToken!);

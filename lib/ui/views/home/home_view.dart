@@ -1,6 +1,7 @@
 import 'package:emi_solution/ui/common/app_colors.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/client/admin_client_viewmodel.dart';
+import 'package:emi_solution/ui/views/admin/client/client_form_view.dart';
 import 'package:emi_solution/ui/views/admin/client/create_client_view.dart';
 import 'package:emi_solution/ui/views/admin/dashboard/admin_dashboard_view.dart';
 import 'package:emi_solution/ui/views/customer/customer_view.dart';
@@ -12,6 +13,15 @@ import 'home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
   const HomeView({super.key});
+
+  Future<void> clientForm(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const ClientFormView();
+      },
+    );
+  }
 
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
@@ -33,7 +43,17 @@ class HomeView extends StackedView<HomeViewModel> {
             viewModel.scaffoldKey.currentState?.openDrawer();
           },
         ),
-        //centerTitle: true,
+        actions: viewModel.currentIndex == 1
+            ? [
+                IconButton(
+                  icon:
+                      const Icon(Icons.add_circle_outline, color: Colors.white),
+                  onPressed: () {
+                    clientForm(context);
+                  },
+                ),
+              ]
+            : [],
         backgroundColor: primaryColor,
         elevation: 2,
       ),
@@ -43,12 +63,16 @@ class HomeView extends StackedView<HomeViewModel> {
         _LazyWidget(
           index: 0,
           currentIndex: viewModel.currentIndex,
-          child: viewModel.isMaster ? const AdminDashboardView() : const CustomerView(),
+          child: viewModel.isMaster
+              ? const AdminDashboardView()
+              : const CustomerView(),
         ),
         _LazyWidget(
           index: 1,
           currentIndex: viewModel.currentIndex,
-          child: viewModel.isMaster ? const CreateClientView() : const CustomerView(),
+          child: viewModel.isMaster
+              ? const CreateClientView()
+              : const CustomerView(),
         ),
       ]),
       bottomNavigationBar: Container(
@@ -92,7 +116,7 @@ class HomeView extends StackedView<HomeViewModel> {
       case 0:
         return 'Dashboard';
       case 1:
-        return 'Create Client';
+        return 'Create Account';
       case 2:
         return 'Settings';
 

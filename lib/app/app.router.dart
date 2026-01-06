@@ -8,6 +8,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:emi_solution/ui/views/admin/client/admin_client_view.dart'
     as _i6;
+import 'package:emi_solution/ui/views/admin/client/client_form_view.dart'
+    as _i9;
 import 'package:emi_solution/ui/views/admin/dashboard/admin_dashboard_view.dart'
     as _i8;
 import 'package:emi_solution/ui/views/customer/customer_view.dart' as _i7;
@@ -15,10 +17,10 @@ import 'package:emi_solution/ui/views/home/home_view.dart' as _i2;
 import 'package:emi_solution/ui/views/login/login_view.dart' as _i4;
 import 'package:emi_solution/ui/views/splash/splash_view.dart' as _i5;
 import 'package:emi_solution/ui/views/startup/startup_view.dart' as _i3;
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i10;
+import 'package:stacked_services/stacked_services.dart' as _i11;
 
 class Routes {
   static const homeView = '/home-view';
@@ -35,6 +37,8 @@ class Routes {
 
   static const adminDashboardView = '/admin-dashboard-view';
 
+  static const clientFormView = '/client-form-view';
+
   static const all = <String>{
     homeView,
     startupView,
@@ -43,6 +47,7 @@ class Routes {
     adminClientView,
     customerView,
     adminDashboardView,
+    clientFormView,
   };
 }
 
@@ -55,6 +60,7 @@ class StackedRouter extends _i1.RouterBase {
     _i1.RouteDef(Routes.adminClientView, page: _i6.AdminClientView),
     _i1.RouteDef(Routes.customerView, page: _i7.CustomerView),
     _i1.RouteDef(Routes.adminDashboardView, page: _i8.AdminDashboardView),
+    _i1.RouteDef(Routes.clientFormView, page: _i9.ClientFormView),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
@@ -62,7 +68,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<HomeViewArguments>(
         orElse: () => const HomeViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.HomeView(key: args.key),
         settings: data,
       );
@@ -71,7 +77,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<StartupViewArguments>(
         orElse: () => const StartupViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i3.StartupView(key: args.key),
         settings: data,
       );
@@ -80,7 +86,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<LoginViewArguments>(
         orElse: () => const LoginViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i4.LoginView(key: args.key),
         settings: data,
       );
@@ -89,7 +95,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<SplashViewArguments>(
         orElse: () => const SplashViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i5.SplashView(key: args.key),
         settings: data,
       );
@@ -98,7 +104,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<AdminClientViewArguments>(
         orElse: () => const AdminClientViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i6.AdminClientView(key: args.key),
         settings: data,
       );
@@ -107,7 +113,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<CustomerViewArguments>(
         orElse: () => const CustomerViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i7.CustomerView(key: args.key),
         settings: data,
       );
@@ -116,8 +122,17 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<AdminDashboardViewArguments>(
         orElse: () => const AdminDashboardViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i8.AdminDashboardView(key: args.key),
+        settings: data,
+      );
+    },
+    _i9.ClientFormView: (data) {
+      final args = data.getArgs<ClientFormViewArguments>(
+        orElse: () => const ClientFormViewArguments(),
+      );
+      return _i10.MaterialPageRoute<dynamic>(
+        builder: (context) => _i9.ClientFormView(key: args.key),
         settings: data,
       );
     },
@@ -133,7 +148,7 @@ class StackedRouter extends _i1.RouterBase {
 class HomeViewArguments {
   const HomeViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -155,7 +170,7 @@ class HomeViewArguments {
 class StartupViewArguments {
   const StartupViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -177,7 +192,7 @@ class StartupViewArguments {
 class LoginViewArguments {
   const LoginViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -199,7 +214,7 @@ class LoginViewArguments {
 class SplashViewArguments {
   const SplashViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -221,7 +236,7 @@ class SplashViewArguments {
 class AdminClientViewArguments {
   const AdminClientViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -243,7 +258,7 @@ class AdminClientViewArguments {
 class CustomerViewArguments {
   const CustomerViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -265,7 +280,7 @@ class CustomerViewArguments {
 class AdminDashboardViewArguments {
   const AdminDashboardViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -284,9 +299,31 @@ class AdminDashboardViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i10.NavigationService {
+class ClientFormViewArguments {
+  const ClientFormViewArguments({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return '{"key": "$key"}';
+  }
+
+  @override
+  bool operator ==(covariant ClientFormViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i11.NavigationService {
   Future<dynamic> navigateToHomeView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -304,7 +341,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToStartupView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -322,7 +359,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToLoginView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -340,7 +377,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToSplashView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -358,7 +395,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToAdminClientView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -376,7 +413,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToCustomerView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -394,7 +431,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToAdminDashboardView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -411,8 +448,26 @@ extension NavigatorStateExtension on _i10.NavigationService {
     );
   }
 
+  Future<dynamic> navigateToClientFormView({
+    _i10.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(
+      Routes.clientFormView,
+      arguments: ClientFormViewArguments(key: key),
+      id: routerId,
+      preventDuplicates: preventDuplicates,
+      parameters: parameters,
+      transition: transition,
+    );
+  }
+
   Future<dynamic> replaceWithHomeView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -430,7 +485,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithStartupView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -448,7 +503,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithLoginView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -466,7 +521,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithSplashView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -484,7 +539,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithAdminClientView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -502,7 +557,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithCustomerView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -520,7 +575,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithAdminDashboardView({
-    _i9.Key? key,
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -530,6 +585,24 @@ extension NavigatorStateExtension on _i10.NavigationService {
     return replaceWith<dynamic>(
       Routes.adminDashboardView,
       arguments: AdminDashboardViewArguments(key: key),
+      id: routerId,
+      preventDuplicates: preventDuplicates,
+      parameters: parameters,
+      transition: transition,
+    );
+  }
+
+  Future<dynamic> replaceWithClientFormView({
+    _i10.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(
+      Routes.clientFormView,
+      arguments: ClientFormViewArguments(key: key),
       id: routerId,
       preventDuplicates: preventDuplicates,
       parameters: parameters,

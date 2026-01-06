@@ -1,8 +1,10 @@
 import 'package:emi_solution/app/app.bottomsheets.dart';
 import 'package:emi_solution/app/app.dialogs.dart';
 import 'package:emi_solution/app/app.locator.dart';
+import 'package:emi_solution/app/app.router.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/ui/common/app_strings.dart';
+import 'package:emi_solution/ui/views/admin/client/client_form_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -10,12 +12,12 @@ import 'package:stacked_services/stacked_services.dart';
 class HomeViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _navigationService = locator<NavigationService>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
   bool _isProcessingTap = false;
   bool isMaster = false;
-  
 
   String get counterLabel => 'Counter is: $_counter';
 

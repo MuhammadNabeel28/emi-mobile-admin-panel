@@ -6,6 +6,7 @@ class ApiUrl {
   static const String getAccountDetail = '$baseUrl/api/Account/accountsInfo';
   static const String postAccountActiveInActive = '$baseUrl/api/Account/activestatus_update';
   static const String postAccountExpiry = '$baseUrl/api/Account/account_expiryupdate';
+  static const String accountCreateUrl = '$baseUrl/api/Account/create';
 
   // Add more endpoints as needed
 }

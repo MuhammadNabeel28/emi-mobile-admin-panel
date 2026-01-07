@@ -16,6 +16,7 @@ class HomeView extends StackedView<HomeViewModel> {
 
   Future<void> clientForm(BuildContext context) {
     return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return const ClientFormView();

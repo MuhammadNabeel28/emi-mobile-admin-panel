@@ -1,6 +1,7 @@
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/client/client_form_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 class ClientFormView extends StackedView<ClientFormViewModel> {
@@ -11,22 +12,77 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
       BuildContext context, ClientFormViewModel viewModel, Widget? child) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
       child: AlertDialog(
-        title: const Text('Create New Account'),
+        title: Text('Create New Account',
+            style: AppFonts.semiBold(
+              fontSize: 20,
+            )),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Client Name',
+                decoration: InputDecoration(
+                    labelText: 'Account Id',
+                    hintStyle: AppFonts.regular(
+                      fontSize: 10,
+                    )),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Account Name',
+                  hintStyle: AppFonts.regular(
+                    fontSize: 10,
+                  ),
                 ),
               ),
               TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Client Email',
+                decoration: InputDecoration(
+                  labelText: 'Contact Info',
+                  hintStyle: AppFonts.regular(
+                    fontSize: 10,
+                  ),
                 ),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'User Id',
+                  hintStyle: AppFonts.regular(
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+              TextField(
+                obscuringCharacter: '*',
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintStyle: AppFonts.regular(
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+              TextField(
+                controller: viewModel.dateController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Date Of Expiry',
+                  hintStyle: AppFonts.regular(fontSize: 10),
+                ),
+                onTap: () async {
+                  final DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null) {
+                    viewModel.pickedDate = pickedDate;
+                    final formattedDate =
+                        DateFormat('dd-MMM-yyyy').format(pickedDate);
+                    viewModel.dateController.text = formattedDate;
+                  }
+                },
               ),
               SizedBox(height: 24),
               const Text('Account Type:',
@@ -44,8 +100,7 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           value: true,
                           groupValue: viewModel.ismaster,
                           onChanged: (val) => viewModel.toggleIsMaster(true),
-                          visualDensity:
-                              VisualDensity.compact, // space kam karega
+                          visualDensity: VisualDensity.compact,
                         ),
                         const Text('Master'),
                       ],

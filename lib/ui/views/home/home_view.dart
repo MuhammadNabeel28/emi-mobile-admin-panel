@@ -1,4 +1,5 @@
 import 'package:emi_solution/ui/common/app_colors.dart';
+import 'package:emi_solution/ui/common/app_images.dart';
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/client/admin_client_viewmodel.dart';
 import 'package:emi_solution/ui/views/admin/client/client_form_view.dart';
@@ -77,7 +78,7 @@ class HomeView extends StackedView<HomeViewModel> {
         ),
       ]),
       bottomNavigationBar: Container(
-        color: primaryColor.withOpacity(0.1),
+        color: bottomNavBarColor,
         padding: EdgeInsets.only(
           top: screenHeight * 0.01,
           bottom: bottomPadding > 0 ? bottomPadding : 0,
@@ -86,11 +87,11 @@ class HomeView extends StackedView<HomeViewModel> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(
-              icon: Icons.dashboard,
-              label: 'Dashboard',
+              icon: AppImages.home,
+              label: 'Home',
               isSelected: viewModel.currentIndex == 0,
               onTap: () => viewModel.setIndex(0),
-              isIcon: true,
+              isIcon: false,
             ),
             _buildNavItem(
               icon: Icons.manage_accounts,
@@ -147,10 +148,6 @@ Widget _buildNavItem({
           duration: const Duration(milliseconds: 300),
           curve: Curves.ease,
           padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: isSelected ? primaryColor : Colors.white,
-          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -168,16 +165,16 @@ Widget _buildNavItem({
                             icon,
                             key: ValueKey('icon_$label'),
                             size: 22,
-                            color: isSelected ? Colors.white : primaryColor,
+                            color: isSelected ? primaryColor : Colors.white,
                           )
                         : const SizedBox())
                     : ColorFiltered(
                         colorFilter: ColorFilter.mode(
-                          isSelected ? Colors.white : primaryColor,
+                          isSelected ? primaryColor : Colors.white,
                           BlendMode.srcIn,
                         ),
                         child: Image.asset(
-                          icon.toString(),
+                          icon as String,
                           key: ValueKey('image_$label'),
                           width: 22,
                           height: 22,
@@ -189,7 +186,7 @@ Widget _buildNavItem({
                 duration: const Duration(milliseconds: 300),
                 style: AppFonts.regular(
                   fontSize: 10,
-                  color: isSelected ? Colors.white : primaryColor,
+                  color: isSelected ? primaryColor : Colors.white,
                 ),
                 child: Text(
                   label,

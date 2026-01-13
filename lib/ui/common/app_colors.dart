@@ -8,3 +8,4 @@ const Color kcLightGrey = Color.fromARGB(255, 187, 187, 187);
 const Color kcVeryLightGrey = Color(0xFFE3E3E3);
 const Color kcBackgroundColor = kcDarkGreyColor;
 const Color primaryColor = Color(0xFFF2994A);
+const Color bottomNavBarColor = Color(0xFF272341);

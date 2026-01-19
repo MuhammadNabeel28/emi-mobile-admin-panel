@@ -33,6 +33,19 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                       fontSize: 10,
                     ),
                   ),
+                  autovalidateMode: AutovalidateMode.onUnfocus,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Account ID required';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Enter a valid number';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    viewModel.accountIdController.text = value ?? '';
+                  },
                 ),
                 TextField(
                   decoration: InputDecoration(
@@ -58,7 +71,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                     ),
                   ),
                 ),
-                TextField(
+                TextFormField(
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Device Limit',
                     hintStyle: AppFonts.regular(

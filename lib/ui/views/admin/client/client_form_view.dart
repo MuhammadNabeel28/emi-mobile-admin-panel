@@ -25,6 +25,7 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  controller: viewModel.accountIdController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'Enter Account Id',
@@ -47,21 +48,57 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                     viewModel.accountIdController.text = value ?? '';
                   },
                 ),
-                TextField(
+                TextFormField(
+                  controller: viewModel.accountNameController,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                    hintText: 'Enter Account Name',
                     labelText: 'Account Name',
                     hintStyle: AppFonts.regular(
                       fontSize: 10,
                     ),
                   ),
+                  autovalidateMode: AutovalidateMode.onUnfocus,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Account Name required';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Enter a valid number';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    viewModel.accountNameController.text = value ?? '';
+                  },
                 ),
-                TextField(
+                TextFormField(
+                  controller: viewModel.contactInfoController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    viewModel.numberformater(),
+                  ],
                   decoration: InputDecoration(
+                    hintText: '0000-0000000',
                     labelText: 'Contact Info',
                     hintStyle: AppFonts.regular(
                       fontSize: 10,
                     ),
                   ),
+                  autovalidateMode: AutovalidateMode.onUnfocus,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Contact Info required';
+                    }
+                    if (!RegExp(r'^\d{4}-\d{7}$').hasMatch(value)) {
+                      return 'Enter valid contact number';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    viewModel.contactInfoController.text = value ?? '';
+                  },
                 ),
                 TextField(
                   decoration: InputDecoration(

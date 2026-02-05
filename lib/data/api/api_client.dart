@@ -67,6 +67,44 @@ class ApiClient {
     }
   }
 
+  //! get account id
+  Future<dynamic> getAccountId({required String token}) async {
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      final response = await dio.get(
+        ApiUrl.getAccountIdUrl,
+        options: Options(
+          headers: headers,
+          validateStatus: (status) => status != null && status < 500,
+        ),
+      );
+
+      logger.i("Response status: ${response.statusCode}");
+      logger.i("Response type: ${response.data.runtimeType}");
+      logger.i("Response body: ${response.data}");
+
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+
+      return {
+        "success": false,
+        "message": response.statusMessage ?? "Unknown error",
+      };
+    } catch (e) {
+      AppSnackBar.showError(e.toString());
+      logger.e("getAccountId exception: ${e.toString()}");
+      return {
+        "success": false,
+        "message": e.toString(),
+      };
+    }
+  }
+
   //! get account detail
   Future<dynamic> getAccountDetail({required String token}) async {
     final headers = {
@@ -191,7 +229,6 @@ class ApiClient {
     }
   }
 
-
   //! account active/inactive request
   Future<Map<String, dynamic>> postAccountActive({
     required bool activeStatus,
@@ -211,7 +248,6 @@ class ApiClient {
     };
 
     try {
-      
       final response = await dio.post(
         ApiUrl.postAccountActiveInActive,
         data: body,
@@ -356,5 +392,4 @@ class ApiClient {
       return {"success": false, "message": e.toString()};
     }
   }
-
 }

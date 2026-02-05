@@ -1,6 +1,7 @@
+import 'package:emi_solution/data/local/aap_storage.dart';
+import 'package:emi_solution/data/repo/get/get_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 class ClientFormViewModel extends BaseViewModel {
@@ -19,14 +20,32 @@ class ClientFormViewModel extends BaseViewModel {
   TextEditingController passwordController = TextEditingController();
   TextEditingController dateOfExpiryController = TextEditingController();
   bool isMasterAccount = false;
+  final getRepo = GetRepository();
+
+  ClientFormViewModel() {
+    getAccountId();
+  }
 
   void toggleIsMaster(bool value) {
     _ismaster = value;
     notifyListeners();
   }
 
-    numberformater() {
-    ContactNumberFormatter();
+  TextInputFormatter numberformater() {
+    return ContactNumberFormatter();
+  }
+
+  Future<void> getAccountId() async {
+    setBusy(true);
+    final token = LocalStorage.getString(LocalStorage.accessTokenKey);
+    if (token != null) {
+      final accountIdModel = await getRepo.getAccountId(token);
+      if (accountIdModel != null) {
+        accountIdController.text = accountIdModel.accountId.toString();
+        rebuildUi();
+      }
+    }
+    setBusy(false);
   }
 }
 
@@ -42,7 +61,7 @@ class ContactNumberFormatter extends TextInputFormatter {
     for (int i = 0; i < text.length; i++) {
       buffer.write(text[i]);
       // Example: after 4 digits, add a dash
-      if (i == 3 || i == 6) {
+      if (i == 3) {
         buffer.write('-');
       }
     }

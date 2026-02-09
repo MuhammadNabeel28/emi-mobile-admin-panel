@@ -89,6 +89,35 @@ class ApiClient {
 
       if (response.statusCode == 200) {
         return response.data;
+      } else if (response.statusCode == 401) {
+        logger.w("Token expired. Attempting refresh...");
+
+        final accountId =
+            await LocalStorage.getInt(LocalStorage.accountIdKey) ?? 0;
+        final userId = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
+        final refreshToken =
+            LocalStorage.getString(LocalStorage.refreshTokenKey) ?? '';
+
+        final refreshResult = await postRefreshToken(
+          userId: userId,
+          accountId: accountId,
+          refreshToken: refreshToken,
+        );
+
+        logger.i("Refresh result: $refreshResult");
+
+        if (refreshResult['success'] == true &&
+            refreshResult['accessToken'] != null) {
+          final newToken = refreshResult['accessToken'];
+          LocalStorage.setString(LocalStorage.accessTokenKey, newToken!);
+          return await getAccountId(token: newToken!);
+        } else {
+          return {
+            "success": false,
+            "message": "Unauthorized. Token refresh failed.",
+            "refreshResponse": refreshResult,
+          };
+        }
       }
 
       return {
@@ -392,4 +421,66 @@ class ApiClient {
       return {"success": false, "message": e.toString()};
     }
   }
+  
+  //! create account request
+  Future<Map<String, dynamic>> postCreateAccount({
+    required int accountId,
+    required String accountName,
+    required String contactInfo,
+    required String userId,
+    required int deviceLimit,
+    required String email,
+    required String password,
+    required String dateOfExpiry,
+    required bool isMaster,
+    required int loginId,
+    required String token,
+  }) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final body = {
+      'accountId': accountId,
+      'accountName': accountName,
+      'contactInfo': contactInfo,
+      'userId': userId,
+      'deviceLimit': deviceLimit,
+      'email': email,
+      'password': password,
+      'dateOfExpiry': dateOfExpiry,
+      'isMaster': isMaster,
+      'loginId': loginId,
+    };
+
+    try {
+      final response = await dio.post(
+        ApiUrl.accountCreateUrl,
+        data: body,
+        options: Options(
+          headers: headers,
+          validateStatus: (status) => true,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        AppSnackBar.showSuccess('Account Created Successfully');
+        logger.i(
+            "(Api CLient request create account success!!)  : create account response: ${response.data}");
+        return response.data;
+      } else {
+        logger.e(
+            "(Api CLient request create account error)  : Error Message: ${response.statusMessage}}");
+
+        return {"success": false, "message": response.statusMessage};
+      }
+    } catch (e) {
+      AppSnackBar.showError('$e');
+      return {"success": false, "message": e.toString()};
+    }
+
+    
+    
+  }
+  
 }

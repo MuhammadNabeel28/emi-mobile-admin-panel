@@ -37,6 +37,7 @@ class ClientFormViewModel extends BaseViewModel {
 
   Future<void> getAccountId() async {
     setBusy(true);
+    await Future.delayed(const Duration(seconds: 2));
     final token = LocalStorage.getString(LocalStorage.accessTokenKey);
     if (token != null) {
       final accountIdModel = await getRepo.getAccountId(token);

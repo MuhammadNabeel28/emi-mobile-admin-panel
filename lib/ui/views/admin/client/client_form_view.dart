@@ -11,7 +11,23 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
   Widget builder(
       BuildContext context, ClientFormViewModel viewModel, Widget? child) {
     return viewModel.isBusy
-        ? const Center(child: CircularProgressIndicator())
+        ? Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 16),
+                Text(
+                  'Please wait...',
+                  style: AppFonts.semiBold(
+                    fontSize: 16,
+                    decoration: TextDecoration.none,
+                    color: Colors.yellow,
+                  ),
+                ),
+              ],
+            ),
+          )
         : Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
@@ -29,12 +45,16 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                       TextFormField(
                         controller: viewModel.accountIdController,
                         keyboardType: TextInputType.number,
+                        readOnly: true,
                         decoration: InputDecoration(
                           hintText: 'Enter Account Id',
                           labelText: 'Account Id',
                           hintStyle: AppFonts.regular(
                             fontSize: 10,
                           ),
+                          fillColor: Colors.grey[100],
+                          suffixIcon:
+                              Icon(Icons.lock, size: 20, color: Colors.grey),
                         ),
                         autovalidateMode: AutovalidateMode.onUnfocus,
                         validator: (value) {

@@ -72,7 +72,6 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                       ),
                       TextFormField(
                         controller: viewModel.accountNameController,
-                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: 'Enter Account Name',
                           labelText: 'Account Name',
@@ -248,7 +247,7 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle form submission
+                    viewModel.cerateAccount();
                   },
                   child: const Text('Submit'),
                 ),

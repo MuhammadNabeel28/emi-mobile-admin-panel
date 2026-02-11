@@ -1,5 +1,7 @@
 import 'package:emi_solution/data/local/aap_storage.dart';
+import 'package:emi_solution/data/model/account_create_model.dart';
 import 'package:emi_solution/data/repo/get/get_repository.dart';
+import 'package:emi_solution/data/repo/post/post_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
@@ -19,8 +21,10 @@ class ClientFormViewModel extends BaseViewModel {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController dateOfExpiryController = TextEditingController();
+  CreateAccountModel? createAccountModel;
   bool isMasterAccount = false;
   final getRepo = GetRepository();
+  final postRepo = PostRepository();
 
   ClientFormViewModel() {
     getAccountId();
@@ -46,6 +50,39 @@ class ClientFormViewModel extends BaseViewModel {
         rebuildUi();
       }
     }
+    setBusy(false);
+  }
+
+  Future<void> cerateAccount() async {
+    setBusy(true);
+    await Future.delayed(const Duration(seconds: 2));
+
+    var response = await postRepo.postCreateNewAccount(
+      loginId: int.parse(LocalStorage.getString(LocalStorage.userLoginIdKey)!),
+      accountId: int.parse(accountIdController.text),
+      accountName: accountNameController.text,
+      contactInfo: contactInfoController.text,
+      isMaster: ismaster,
+      dateOfExpiry: dateOfExpiryController.text,
+      userId: userIdController.text,
+      password: passwordController.text,
+      deviceLimit: int.parse(deviceLimitController.text),
+      email: emailController.text,
+    );
+
+    // ignore: unrelated_type_equality_checks
+    if (response == true) {
+      // Clear the form after successful creation
+      accountNameController.clear();
+      contactInfoController.clear();
+      userIdController.clear();
+      deviceLimitController.clear();
+      emailController.clear();
+      passwordController.clear();
+      dateOfExpiryController.clear();
+      toggleIsMaster(false);
+    }
+
     setBusy(false);
   }
 }

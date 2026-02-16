@@ -20,14 +20,20 @@ class ClientFormViewModel extends BaseViewModel {
   TextEditingController deviceLimitController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController dateOfExpiryController = TextEditingController();
   CreateAccountModel? createAccountModel;
   bool isMasterAccount = false;
   final getRepo = GetRepository();
   final postRepo = PostRepository();
+  bool isCreating = false;
+  bool isPasswordVisible = true;
 
   ClientFormViewModel() {
     getAccountId();
+  }
+
+  void toggleIsPasswordVisible() {
+    isPasswordVisible = !isPasswordVisible;
+    notifyListeners();
   }
 
   void toggleIsMaster(bool value) {
@@ -54,16 +60,16 @@ class ClientFormViewModel extends BaseViewModel {
   }
 
   Future<void> cerateAccount() async {
-    setBusy(true);
+    isCreating = true;
     await Future.delayed(const Duration(seconds: 2));
 
     var response = await postRepo.postCreateNewAccount(
-      loginId: int.parse(LocalStorage.getString(LocalStorage.userLoginIdKey)!),
+      loginId: await LocalStorage.getInt(LocalStorage.userLoginIdKey) ?? 0,
       accountId: int.parse(accountIdController.text),
       accountName: accountNameController.text,
       contactInfo: contactInfoController.text,
       isMaster: ismaster,
-      dateOfExpiry: dateOfExpiryController.text,
+      dateOfExpiry: dateController.text,
       userId: userIdController.text,
       password: passwordController.text,
       deviceLimit: int.parse(deviceLimitController.text),
@@ -79,11 +85,11 @@ class ClientFormViewModel extends BaseViewModel {
       deviceLimitController.clear();
       emailController.clear();
       passwordController.clear();
-      dateOfExpiryController.clear();
+      dateController.clear();
       toggleIsMaster(false);
     }
 
-    setBusy(false);
+    isCreating = false;
   }
 }
 

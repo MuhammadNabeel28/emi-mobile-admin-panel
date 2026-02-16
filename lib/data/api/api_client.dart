@@ -421,7 +421,7 @@ class ApiClient {
       return {"success": false, "message": e.toString()};
     }
   }
-  
+
   //! create account request
   Future<Map<String, dynamic>> postCreateAccount({
     required int accountId,
@@ -451,6 +451,7 @@ class ApiClient {
       'dateOfExpiry': dateOfExpiry,
       'isMaster': isMaster,
       'loginId': loginId,
+      'status': true,
     };
 
     try {
@@ -478,9 +479,5 @@ class ApiClient {
       AppSnackBar.showError('$e');
       return {"success": false, "message": e.toString()};
     }
-
-    
-    
   }
-  
 }

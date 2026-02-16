@@ -121,15 +121,20 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           viewModel.contactInfoController.text = value ?? '';
                         },
                       ),
-                      TextField(
+                      TextFormField(
+                        controller: viewModel.userIdController,
                         decoration: InputDecoration(
                           labelText: 'User Id',
                           hintStyle: AppFonts.regular(
                             fontSize: 10,
                           ),
                         ),
+                        onSaved: (value) {
+                          viewModel.userIdController.text = value ?? '';
+                        },
                       ),
                       TextFormField(
+                        controller: viewModel.deviceLimitController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Device Limit',
@@ -137,8 +142,12 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                             fontSize: 10,
                           ),
                         ),
+                        onSaved: (value) {
+                          viewModel.deviceLimitController.text = value ?? '';
+                        },
                       ),
                       TextFormField(
+                        controller: viewModel.emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Email Address',
@@ -157,17 +166,36 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           }
                           return null;
                         },
+                        onSaved: (value) {
+                          viewModel.emailController.text = value ?? '';
+                        },
                       ),
                       TextFormField(
-                        obscureText: true,
+                        controller: viewModel.passwordController,
+                        obscureText: viewModel.isPasswordVisible,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintStyle: AppFonts.regular(
                             fontSize: 10,
                           ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              viewModel.isPasswordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              viewModel.toggleIsPasswordVisible();
+                            },
+                          ),
                         ),
+                        onSaved: (value) {
+                          viewModel.passwordController.text = value ?? '';
+                        },
                       ),
-                      TextField(
+                      TextFormField(
                         controller: viewModel.dateController,
                         readOnly: true,
                         decoration: InputDecoration(
@@ -187,6 +215,9 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                                 DateFormat('dd-MMM-yyyy').format(pickedDate);
                             viewModel.dateController.text = formattedDate;
                           }
+                        },
+                        onSaved: (value) {
+                          viewModel.dateController.text = value ?? '';
                         },
                       ),
                       SizedBox(height: 24),
@@ -247,7 +278,9 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    viewModel.cerateAccount();
+                    viewModel.isCreating == true
+                        ? CircularProgressIndicator()
+                        : viewModel.cerateAccount();
                   },
                   child: const Text('Submit'),
                 ),

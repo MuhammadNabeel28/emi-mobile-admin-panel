@@ -61,6 +61,7 @@ class ClientFormViewModel extends BaseViewModel {
 
   Future<void> cerateAccount() async {
     isCreating = true;
+    rebuildUi();
     await Future.delayed(const Duration(seconds: 2));
 
     var response = await postRepo.postCreateNewAccount(
@@ -90,6 +91,7 @@ class ClientFormViewModel extends BaseViewModel {
     }
 
     isCreating = false;
+    notifyListeners();
   }
 }
 

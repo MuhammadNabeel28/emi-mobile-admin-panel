@@ -1,11 +1,15 @@
 class ApiUrl {
-  static const String baseUrl = 'http://cloud.swisssoft.co:1090';
+  //Local Host Url  https://10.0.2.2:7004
+  // Cloud Url http://cloud.swisssoft.co:1090
+  static const String baseUrl = 'https://aracelis-huntable-ryland.ngrok-free.dev';
   static const String loginUrl = '$baseUrl/api/Auth/login';
   static const String refreshUrl = '$baseUrl/api/Auth/refresh';
   static const String createAccountUrl = '$baseUrl/api/Account/create';
   static const String getAccountDetail = '$baseUrl/api/Account/accountsInfo';
-  static const String postAccountActiveInActive = '$baseUrl/api/Account/activestatus_update';
-  static const String postAccountExpiry = '$baseUrl/api/Account/account_expiryupdate';
+  static const String postAccountActiveInActive =
+      '$baseUrl/api/Account/activestatus_update';
+  static const String postAccountExpiry =
+      '$baseUrl/api/Account/account_expiryupdate';
   static const String accountCreateUrl = '$baseUrl/api/Account/create';
   static const String getAccountIdUrl = '$baseUrl/api/Account/accountId';
 

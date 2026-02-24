@@ -1,15 +1,32 @@
 // ignore_for_file: strict_top_level_inference
 
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:emi_solution/data/api/api_url.dart';
 import 'package:emi_solution/data/local/aap_storage.dart';
 import 'package:emi_solution/ui/widget/custom_snackbar.dart';
 import 'package:logger/logger.dart';
 
 class ApiClient {
-  final dio = Dio();
+  final dio = Dio(BaseOptions(
+    connectTimeout: const Duration(seconds: 20),
+    receiveTimeout: const Duration(seconds: 20),
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning":
+          "true", // Ya "69420", "1", "anyvalue" – kuch bhi non-empty
+    },
+  ))
+    ..httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () {
+        final client = HttpClient();
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      },
+    );
   final Logger logger = Logger();
   final localStorage = LocalStorage();
 
@@ -19,9 +36,9 @@ class ApiClient {
     required password,
     required deviceId,
   }) async {
-    final headers = {
-      'Content-Type': 'application/json',
-    };
+    // final headers = {
+    //   'Content-Type': 'application/json',
+    // };
 
     final body = {
       'userId': userName,
@@ -33,7 +50,7 @@ class ApiClient {
       final response = await dio.post(
         ApiUrl.loginUrl,
         data: body,
-        options: Options(headers: headers),
+        //options: Options(headers: dio.h),
       );
 
       if (response.statusCode == 200) {

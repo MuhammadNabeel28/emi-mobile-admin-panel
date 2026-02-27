@@ -25,7 +25,7 @@ class SplashViewmodel extends BaseViewModel {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithHomeView();
       });
-    } else if (isFirstLaunch) {
+    } else if (!isFirstLaunch) {
       await Future.delayed(const Duration(seconds: 2), () {
         _navigationServices.replaceWithStartupView();
       });

@@ -282,12 +282,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                         ? CircularProgressIndicator()
                         : viewModel.cerateAccount();
 
-                    if (viewModel.createAccountModel?.message ==
-                        "Account created successfully") {
+                    if (viewModel.createAccountModel?.code == "200") {
                       Navigator.of(context).pop();
                     }
                   },
-                  child: const Text('Submit'),
+                  child: Text('Submit', style: AppFonts.semiBold(fontSize: 14)),
                 ),
               ],
             ),

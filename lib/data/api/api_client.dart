@@ -15,8 +15,7 @@ class ApiClient {
     receiveTimeout: const Duration(seconds: 20),
     headers: {
       "Content-Type": "application/json",
-      "ngrok-skip-browser-warning":
-          "true", // Ya "69420", "1", "anyvalue" – kuch bhi non-empty
+      "ngrok-skip-browser-warning":"true", // Ya "69420", "1", "anyvalue" – kuch bhi non-empty
     },
   ))
     ..httpClientAdapter = IOHttpClientAdapter(
@@ -486,7 +485,59 @@ class ApiClient {
         logger.i(
             "(Api CLient request create account success!!)  : create account response: ${response.data}");
         return response.data;
-      } else {
+      } else if(response.statusCode == 401) {
+        final accountId =
+            await LocalStorage.getInt(LocalStorage.accountIdKey) ?? 0;
+        final userId = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
+        final refreshToken =
+            LocalStorage.getString(LocalStorage.refreshTokenKey) ?? '';
+        final refreshResult = await postRefreshToken(
+          userId: userId,
+          accountId: accountId,
+          refreshToken: refreshToken,
+        );
+
+        int accountId_ = accountId;
+        String accountName_ = accountName;
+        String contactInfo_ = contactInfo;
+        String userId_ = userId;
+        int deviceLimit_ = deviceLimit;
+        String email_ = email;
+        String password_ = password;
+        String dateOfExpiry_ = dateOfExpiry;
+        bool isMaster_ = isMaster;
+        int loginId_ = loginId;
+
+        logger.i(
+            "(Api Client  Class) refreseh Token ${refreshResult.toString()}");
+
+        if (refreshResult['success'] == true &&
+            refreshResult['accessToken'] != null) {
+          final newToken = refreshResult['accessToken'];
+          LocalStorage.setString(LocalStorage.accessTokenKey, newToken!);
+          return await postCreateAccount(
+            token: newToken!,
+            accountId: accountId_,
+            accountName: accountName_,
+            contactInfo: contactInfo_,
+            userId: userId_,
+            deviceLimit: deviceLimit_,
+            email: email_,
+            password: password_,
+            dateOfExpiry: dateOfExpiry_,
+            isMaster: isMaster_,
+            loginId: loginId_,
+          );
+        } else {
+          return {
+            "success": false,
+            "message": "Unauthorized. Token refresh failed.",
+            "refreshResponse": refreshResult,
+          };
+        } 
+
+      } 
+      else {
         logger.e(
             "(Api CLient request create account error)  : Error Message: ${response.statusMessage}}");
 

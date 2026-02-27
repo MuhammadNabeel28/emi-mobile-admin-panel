@@ -12,6 +12,7 @@ class CreateAccountModel {
   bool? status;
   String? deviceId;
   String? message;
+  String? code;
   String? licenceKey;
   String? numericKey;
 
@@ -29,6 +30,7 @@ class CreateAccountModel {
       this.status,
       this.deviceId,
       this.message,
+      this.code,
       this.licenceKey,
       this.numericKey});
 
@@ -46,6 +48,7 @@ class CreateAccountModel {
     status = json['status'];
     deviceId = json['deviceId'];
     message = json['message'];
+    code = json['code'];
     licenceKey = json['licenceKey'];
     numericKey = json['numericKey'];
   }
@@ -62,6 +65,7 @@ class CreateAccountModel {
     data['password'] = password;
     data['deviceLimit'] = deviceLimit;
     data['email'] = email;
+    data['code'] = code;
     data['status'] = status;
     data['deviceId'] = deviceId;
     data['message'] = message;

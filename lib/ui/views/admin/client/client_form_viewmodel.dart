@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 
 class ClientFormViewModel extends BaseViewModel {
   bool _ismaster = false;
-  late final DateTime? pickedDate;
+  DateTime? pickedDate;
   final TextEditingController dateController = TextEditingController();
   bool get ismaster => _ismaster;
   final _formKey = GlobalKey<FormState>();

@@ -1,6 +1,7 @@
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/client/client_form_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
@@ -284,6 +285,12 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
 
                     if (viewModel.createAccountModel?.code == "200") {
                       Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (context) => LicensekeyPoup(
+                            licenseKey:
+                                viewModel.createAccountModel!.licenceKey!),
+                      );
                     }
                   },
                   child: Text('Submit', style: AppFonts.semiBold(fontSize: 14)),
@@ -296,4 +303,46 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
   @override
   ClientFormViewModel viewModelBuilder(BuildContext context) =>
       ClientFormViewModel();
+}
+
+class LicensekeyPoup extends StatelessWidget {
+  final String licenseKey;
+
+  const LicensekeyPoup({super.key, required this.licenseKey});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('License Key',
+          style: AppFonts.semiBold(
+            fontSize: 20,
+          )),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(licenseKey,
+              style: AppFonts.regular(
+                fontSize: 14,
+              )),
+        ],
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            Clipboard.setData(ClipboardData(text: licenseKey));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('License key copied!')),
+            );
+          },
+          child: Text('Copy', style: AppFonts.semiBold(fontSize: 14)),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Close', style: AppFonts.semiBold(fontSize: 14)),
+        ),
+      ],
+    );
+  }
 }

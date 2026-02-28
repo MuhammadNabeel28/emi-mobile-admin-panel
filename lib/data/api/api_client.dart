@@ -15,7 +15,8 @@ class ApiClient {
     receiveTimeout: const Duration(seconds: 20),
     headers: {
       "Content-Type": "application/json",
-      "ngrok-skip-browser-warning":"true", // Ya "69420", "1", "anyvalue" – kuch bhi non-empty
+      "ngrok-skip-browser-warning":
+          "true", // Ya "69420", "1", "anyvalue" – kuch bhi non-empty
     },
   ))
     ..httpClientAdapter = IOHttpClientAdapter(
@@ -468,8 +469,9 @@ class ApiClient {
       'isMaster': isMaster,
       'loginId': loginId,
       'status': true,
+      'deviceId': LocalStorage.getString(LocalStorage.deviceIdKey) ?? '',
     };
-
+    print("Create Account Request Body: $body");
     try {
       final response = await dio.post(
         ApiUrl.accountCreateUrl,
@@ -485,7 +487,7 @@ class ApiClient {
         logger.i(
             "(Api CLient request create account success!!)  : create account response: ${response.data}");
         return response.data;
-      } else if(response.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         final accountId =
             await LocalStorage.getInt(LocalStorage.accountIdKey) ?? 0;
         final userId = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
@@ -534,10 +536,8 @@ class ApiClient {
             "message": "Unauthorized. Token refresh failed.",
             "refreshResponse": refreshResult,
           };
-        } 
-
-      } 
-      else {
+        }
+      } else {
         logger.e(
             "(Api CLient request create account error)  : Error Message: ${response.statusMessage}}");
 

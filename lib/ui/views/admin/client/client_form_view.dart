@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/client/client_form_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,7 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextFormField(
-                        controller: viewModel.accountIdController,
+                        controller: viewModel.formManager.accountIdController,
                         keyboardType: TextInputType.number,
                         readOnly: true,
                         decoration: InputDecoration(
@@ -68,11 +70,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.accountIdController.text = value ?? '';
+                          viewModel.formManager.accountIdController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.accountNameController,
+                        controller: viewModel.formManager.accountNameController,
                         decoration: InputDecoration(
                           hintText: 'Enter Account Name',
                           labelText: 'Account Name',
@@ -91,11 +93,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.accountNameController.text = value ?? '';
+                          viewModel.formManager.accountNameController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.contactInfoController,
+                        controller: viewModel.formManager.contactInfoController,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           viewModel.numberformater(),
@@ -119,11 +121,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.contactInfoController.text = value ?? '';
+                          viewModel.formManager.contactInfoController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.userIdController,
+                        controller: viewModel.formManager.userIdController,
                         decoration: InputDecoration(
                           labelText: 'User Id',
                           hintStyle: AppFonts.regular(
@@ -131,11 +133,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           ),
                         ),
                         onSaved: (value) {
-                          viewModel.userIdController.text = value ?? '';
+                          viewModel.formManager.userIdController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.deviceLimitController,
+                        controller: viewModel.formManager.deviceLimitController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Device Limit',
@@ -144,11 +146,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           ),
                         ),
                         onSaved: (value) {
-                          viewModel.deviceLimitController.text = value ?? '';
+                          viewModel.formManager.deviceLimitController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.emailController,
+                        controller: viewModel.formManager.emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Email Address',
@@ -168,11 +170,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.emailController.text = value ?? '';
+                          viewModel.formManager.emailController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.passwordController,
+                        controller: viewModel.formManager.passwordController,
                         obscureText: viewModel.isPasswordVisible,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -193,11 +195,11 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           ),
                         ),
                         onSaved: (value) {
-                          viewModel.passwordController.text = value ?? '';
+                          viewModel.formManager.passwordController.text = value ?? '';
                         },
                       ),
                       TextFormField(
-                        controller: viewModel.dateController,
+                        controller: viewModel.formManager.dateController,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: 'Date Of Expiry',
@@ -211,14 +213,14 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                             lastDate: DateTime(2100),
                           );
                           if (pickedDate != null) {
-                            viewModel.pickedDate = pickedDate;
+                            viewModel.formManager.pickedDate = pickedDate;
                             final formattedDate =
                                 DateFormat('dd-MMM-yyyy').format(pickedDate);
-                            viewModel.dateController.text = formattedDate;
+                            viewModel.formManager.dateController.text = formattedDate;
                           }
                         },
                         onSaved: (value) {
-                          viewModel.dateController.text = value ?? '';
+                          viewModel.formManager.dateController.text = value ?? '';
                         },
                       ),
                       SizedBox(height: 24),
@@ -278,12 +280,9 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                   child: const Text('Cancel'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    viewModel.isCreating == true
-                        ? CircularProgressIndicator()
-                        : viewModel.cerateAccount();
-
-                    if (viewModel.createAccountModel?.code == "200") {
+                  onPressed: () async {
+                    await  viewModel.cerateAccount();
+                    if (viewModel.createAccountModel?.code == 200) {
                       Navigator.of(context).pop();
                       showDialog(
                         context: context,
@@ -293,7 +292,24 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                       );
                     }
                   },
-                  child: Text('Submit', style: AppFonts.semiBold(fontSize: 14)),
+                  child: viewModel.isCreating
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text('Creating...',
+                                style: AppFonts.semiBold(fontSize: 14)),
+                          ],
+                        )
+                      : Text('Submit', style: AppFonts.semiBold(fontSize: 14)),
                 ),
               ],
             ),

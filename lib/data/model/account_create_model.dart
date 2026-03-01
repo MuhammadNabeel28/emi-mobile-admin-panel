@@ -12,7 +12,7 @@ class CreateAccountModel {
   bool? status;
   String? deviceId;
   String? message;
-  String? code;
+  int? code;
   String? licenceKey;
   String? numericKey;
 
@@ -48,7 +48,14 @@ class CreateAccountModel {
     status = json['status'];
     deviceId = json['deviceId'];
     message = json['message'];
-    code = json['code'];
+    if (json['code'] != null) {
+      if (json['code'] is int) {
+        code = json['code'];
+      } else {
+        code = int.tryParse(json['code'].toString());
+      }
+    }
+
     licenceKey = json['licenceKey'];
     numericKey = json['numericKey'];
   }

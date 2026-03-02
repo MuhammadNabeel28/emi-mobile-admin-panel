@@ -2,6 +2,7 @@
 
 import 'package:emi_solution/ui/common/custom_text.dart';
 import 'package:emi_solution/ui/views/admin/client/client_form_viewmodel.dart';
+import 'package:emi_solution/ui/widget/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -70,7 +71,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.formManager.accountIdController.text = value ?? '';
+                          viewModel.formManager.accountIdController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -93,7 +95,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.formManager.accountNameController.text = value ?? '';
+                          viewModel.formManager.accountNameController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -121,7 +124,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.formManager.contactInfoController.text = value ?? '';
+                          viewModel.formManager.contactInfoController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -133,7 +137,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           ),
                         ),
                         onSaved: (value) {
-                          viewModel.formManager.userIdController.text = value ?? '';
+                          viewModel.formManager.userIdController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -146,7 +151,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           ),
                         ),
                         onSaved: (value) {
-                          viewModel.formManager.deviceLimitController.text = value ?? '';
+                          viewModel.formManager.deviceLimitController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -170,7 +176,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           return null;
                         },
                         onSaved: (value) {
-                          viewModel.formManager.emailController.text = value ?? '';
+                          viewModel.formManager.emailController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -195,7 +202,8 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                           ),
                         ),
                         onSaved: (value) {
-                          viewModel.formManager.passwordController.text = value ?? '';
+                          viewModel.formManager.passwordController.text =
+                              value ?? '';
                         },
                       ),
                       TextFormField(
@@ -216,11 +224,13 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                             viewModel.formManager.pickedDate = pickedDate;
                             final formattedDate =
                                 DateFormat('dd-MMM-yyyy').format(pickedDate);
-                            viewModel.formManager.dateController.text = formattedDate;
+                            viewModel.formManager.dateController.text =
+                                formattedDate;
                           }
                         },
                         onSaved: (value) {
-                          viewModel.formManager.dateController.text = value ?? '';
+                          viewModel.formManager.dateController.text =
+                              value ?? '';
                         },
                       ),
                       SizedBox(height: 24),
@@ -281,14 +291,14 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await  viewModel.cerateAccount();
+                    await viewModel.cerateAccount();
                     if (viewModel.createAccountModel?.code == 200) {
                       Navigator.of(context).pop();
                       showDialog(
                         context: context,
                         builder: (context) => LicensekeyPoup(
                             licenseKey:
-                                viewModel.createAccountModel!.licenceKey!),
+                                viewModel.createAccountModel!.numericKey!),
                       );
                     }
                   },
@@ -301,7 +311,7 @@ class ClientFormView extends StackedView<ClientFormViewModel> {
                               height: 16,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.white,
+                                color: Colors.blueAccent,
                               ),
                             ),
                             SizedBox(width: 8),
@@ -349,14 +359,34 @@ class LicensekeyPoup extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('License key copied!')),
             );
+            Navigator.of(context).pop();
+            AppSnackBar.showSuccess('Account Created Successfully');
           },
-          child: Text('Copy', style: AppFonts.semiBold(fontSize: 14)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.copy, size: 18),
+              SizedBox(width: 6),
+              Text('Copy', style: AppFonts.semiBold(fontSize: 14)),
+            ],
+          ),
         ),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
+            AppSnackBar.showSuccess('Account Created Successfully');
           },
-          child: Text('Close', style: AppFonts.semiBold(fontSize: 14)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.close, size: 18),
+              SizedBox(width: 6),
+              Text('Close', style: AppFonts.semiBold(fontSize: 14)),
+            ],
+          ),
         ),
       ],
     );

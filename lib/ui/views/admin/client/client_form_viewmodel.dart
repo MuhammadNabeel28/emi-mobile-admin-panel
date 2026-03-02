@@ -64,7 +64,7 @@ class ClientFormViewModel extends BaseViewModel {
     rebuildUi();
     await Future.delayed(const Duration(seconds: 2));
 
-    var response = await postRepo.postCreateNewAccount(
+    createAccountModel = await postRepo.postCreateNewAccount(
       loginId: await LocalStorage.getInt(LocalStorage.userLoginIdKey) ?? 0,
       accountId: int.parse(formManager.accountIdController.text),
       accountName: formManager.accountNameController.text,
@@ -77,10 +77,9 @@ class ClientFormViewModel extends BaseViewModel {
       email: formManager.emailController.text,
     );
 
-   // createAccountModel = response;
-
+    
     // ignore: unrelated_type_equality_checks
-    if (response.code == 200) {
+    if (createAccountModel?.code == 200) {
       // Clear the form after successful creation
       formManager.clearForm();
       toggleIsMaster(false);

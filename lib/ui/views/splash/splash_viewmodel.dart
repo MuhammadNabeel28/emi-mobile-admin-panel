@@ -39,16 +39,20 @@ class SplashViewmodel extends BaseViewModel {
   void getDeviceId() async {
     try {
       String? deviceId;
+      String? deviceName;
 
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
         deviceId = androidInfo.id;
+        deviceName = androidInfo.name;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         deviceId = iosInfo.identifierForVendor;
+        deviceName = iosInfo.name;
       }
 
       LocalStorage.setString(LocalStorage.deviceIdKey, deviceId!);
+      LocalStorage.setString(LocalStorage.deviceNameKey, deviceName!);
 
       logger.i("(Splash Screen) : Get DeviceId: $deviceId");
     } catch (e) {

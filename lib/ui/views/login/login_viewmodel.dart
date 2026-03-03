@@ -88,6 +88,7 @@ class LoginViewmodel extends BaseViewModel {
         username: username,
         password: password,
         deviceId: LocalStorage.getString(LocalStorage.deviceIdKey) ?? '',
+        deviceName: LocalStorage.getString(LocalStorage.deviceNameKey) ?? '',
       );
 
       if (loginModel != null && loginModel!.success == true) {

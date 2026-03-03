@@ -35,6 +35,7 @@ class ApiClient {
     required userName,
     required password,
     required deviceId,
+    required deviceName,
   }) async {
     // final headers = {
     //   'Content-Type': 'application/json',
@@ -44,6 +45,7 @@ class ApiClient {
       'userId': userName,
       'password': password,
       'deviceId': deviceId,
+      'deviceName': deviceName,
     };
 
     try {
@@ -483,7 +485,6 @@ class ApiClient {
       );
 
       if (response.statusCode == 200) {
-        AppSnackBar.showSuccess('Account Created Successfully');
         logger.i(
             "(Api CLient request create account success!!)  : create account response: ${response.data}");
         return response.data;

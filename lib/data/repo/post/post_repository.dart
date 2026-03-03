@@ -13,11 +13,13 @@ class PostRepository {
     required String username,
     required String password,
     required String deviceId,
+    required String deviceName,
   }) async {
     Map<String, dynamic> response = await apiClient.postLogin(
       userName: username,
       password: password,
       deviceId: deviceId,
+      deviceName: deviceName,
     );
     return LoginModel.fromJson(response);
   }

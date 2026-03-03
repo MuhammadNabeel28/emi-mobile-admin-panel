@@ -16,6 +16,7 @@ class LocalStorage {
   static const String launchFirstKey = 'launchFirstKey';
   static const String isLoginKey = 'isLoginKey';
   static const String deviceIdKey = 'deviceIdKey';
+  static const String deviceNameKey = 'deviceNameKey';
   static const String accountIdKey = 'accountIdKey';
   static const String isMasterKey = 'isMasterKey';
   static const String userLoginIdKey = 'userLoginId';

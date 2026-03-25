@@ -6,7 +6,7 @@ class GlobalServices {
   String? clientName = "";
   int? accountId = 0;
 
-   String? getUserName() {
+  String? getUserName() {
     userName = LocalStorage.getString(LocalStorage.userNameKey) ?? '';
     return userName;
   }
